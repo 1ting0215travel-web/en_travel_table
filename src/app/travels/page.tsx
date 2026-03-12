@@ -45,7 +45,18 @@ export default async function TravelsPage() {
          order by created_at desc`,
         [codeIds]
       )
-    : { rows: [] };
+    : { rows: [] as {
+        id: string;
+        travel_code_id: string;
+        person_name: string;
+        depart_datetime: string;
+        depart_location: string;
+        has_transfer: boolean;
+        arrival_datetime: string;
+        arrival_location: string;
+        hotel_name: string | null;
+        lodging_status: string;
+      }[] };
 
   const entryIds = entriesResult.rows.map((entry) => entry.id);
 
@@ -62,7 +73,12 @@ export default async function TravelsPage() {
          order by seq asc`,
         [entryIds]
       )
-    : { rows: [] };
+    : { rows: [] as {
+        travel_entry_id: string;
+        seq: number;
+        transfer_location: string;
+        transfer_datetime: string | null;
+      }[] };
 
   return (
     <div className="space-y-4">
