@@ -61,28 +61,6 @@ export default async function TravelsPage() {
     : { rows: [] as EntryRow[] };
 
   const entryRows = entriesResult.rows as EntryRow[];
-  const entryIds = entryRows.map((entry) => entry.id);
-
-  const transfersResult = entryIds.length
-    ? await query<{
-        travel_entry_id: string;
-        seq: number;
-        transfer_location: string;
-        transfer_datetime: string | null;
-      }>(
-        `select travel_entry_id, seq, transfer_location, transfer_datetime
-         from travel_transfers
-         where travel_entry_id = any($1)
-         order by seq asc`,
-        [entryIds]
-      )
-    : { rows: [] as {
-        travel_entry_id: string;
-        seq: number;
-        transfer_location: string;
-        transfer_datetime: string | null;
-      }[] };
-
   return (
     <div className="space-y-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -104,7 +82,6 @@ export default async function TravelsPage() {
         role={session.role}
         codes={codes}
         entries={entryRows}
-        transfers={transfersResult.rows}
       />
     </div>
   );
