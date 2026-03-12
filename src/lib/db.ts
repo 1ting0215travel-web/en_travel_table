@@ -5,8 +5,18 @@ if (!databaseUrl) {
   throw new Error('DATABASE_URL is not set');
 }
 
+const connectionUrl = (() => {
+  try {
+    const url = new URL(databaseUrl);
+    url.searchParams.delete('sslmode');
+    return url.toString();
+  } catch {
+    return databaseUrl;
+  }
+})();
+
 export const pool = new Pool({
-  connectionString: databaseUrl,
+  connectionString: connectionUrl,
   ssl: { rejectUnauthorized: false },
 });
 
