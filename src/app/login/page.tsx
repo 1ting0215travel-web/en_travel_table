@@ -1,8 +1,13 @@
 import { redirect } from 'next/navigation';
 import { query } from '@/lib/db';
+import { getSession } from '@/lib/auth';
 import LoginForm from './login-form';
 
 export default async function LoginPage() {
+  const session = await getSession();
+  if (session) {
+    redirect('/travels');
+  }
   try {
     const adminResult = await query<{ count: string }>(
       'select count(*) from app_users where is_destroyed = false'
