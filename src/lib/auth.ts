@@ -23,7 +23,8 @@ export async function createSession(payload: SessionPayload) {
     .setExpirationTime('7d')
     .sign(key);
 
-  cookies().set({
+  const cookieStore = await cookies();
+  cookieStore.set({
     name: cookieName,
     value: token,
     httpOnly: true,
@@ -35,7 +36,8 @@ export async function createSession(payload: SessionPayload) {
 
 export async function clearSession() {
   if (!key) return;
-  cookies().set({
+  const cookieStore = await cookies();
+  cookieStore.set({
     name: cookieName,
     value: '',
     httpOnly: true,
@@ -48,7 +50,8 @@ export async function clearSession() {
 
 export async function getSession() {
   if (!key) return null;
-  const token = cookies().get(cookieName)?.value;
+  const cookieStore = await cookies();
+  const token = cookieStore.get(cookieName)?.value;
   if (!token) return null;
   try {
     const { payload } = await jwtVerify(token, key);
