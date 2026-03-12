@@ -22,7 +22,8 @@ export default async function TravelsPage() {
      order by created_at desc`
   );
 
-  const codeIds = codesResult.rows.map((code) => code.id);
+  const codes = codesResult.rows as { id: string; code_name: string; is_open: boolean }[];
+  const codeIds = codes.map((code) => code.id);
 
   const entriesResult = codeIds.length
     ? await query<{
@@ -82,7 +83,7 @@ export default async function TravelsPage() {
 
       <TravelsClient
         role={session.role}
-        codes={codesResult.rows}
+        codes={codes}
         entries={entriesResult.rows}
         transfers={transfersResult.rows}
       />
