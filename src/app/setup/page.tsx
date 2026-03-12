@@ -18,13 +18,16 @@ export default async function SetupPage() {
     if (!needsSetup) {
       redirect('/login');
     }
-  } catch (error) {
+  } catch (error: any) {
     return (
       <div className="mx-auto max-w-xl rounded-xl border bg-white p-6 shadow-sm">
         <h1 className="text-xl font-semibold">資料庫連線失敗</h1>
         <p className="mt-2 text-sm text-slate-600">
           請確認 <code className="rounded bg-slate-100 px-1">DATABASE_URL</code>{' '}
           是否正確，且本機可連到 Supabase。
+        </p>
+        <p className="mt-3 text-xs text-slate-500">
+          {error?.message || 'unknown_error'}
         </p>
       </div>
     );
