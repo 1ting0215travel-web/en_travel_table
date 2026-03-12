@@ -3,6 +3,8 @@ import { query } from '@/lib/db';
 import { verifyPassword } from '@/lib/password';
 import { createSession } from '@/lib/auth';
 
+export const preferredRegion = 'syd1';
+
 export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
   if (!body) {
