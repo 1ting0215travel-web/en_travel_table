@@ -18,7 +18,6 @@ export default function LoginForm() {
     const payload = {
       role,
       username: String(formData.get('username') || ''),
-      name: String(formData.get('name') || ''),
       password: String(formData.get('password') || ''),
     };
 
@@ -70,16 +69,7 @@ export default function LoginForm() {
             className="mt-1 w-full rounded-md border px-3 py-2"
           />
         </div>
-      ) : (
-        <div>
-          <label className="text-sm font-medium">姓名</label>
-          <input
-            name="name"
-            required
-            className="mt-1 w-full rounded-md border px-3 py-2"
-          />
-        </div>
-      )}
+      ) : null}
 
       <div>
         <label className="text-sm font-medium">密碼</label>

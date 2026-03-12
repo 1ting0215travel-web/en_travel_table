@@ -38,11 +38,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   }
 
-  const name = String(body.name || '').trim();
-  if (!name) {
-    return NextResponse.json({ error: '請輸入姓名' }, { status: 400 });
-  }
-
   const settings = await query<{ member_login_password_hash: string }>(
     'select member_login_password_hash from app_settings where id = 1'
   );
@@ -51,6 +46,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: '密碼錯誤' }, { status: 401 });
   }
 
-  await createSession({ role: 'member', name });
+  await createSession({ role: 'member' });
   return NextResponse.json({ ok: true });
 }
