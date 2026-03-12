@@ -47,13 +47,17 @@ export default async function TravelsPage() {
         id: string;
         travel_code_id: string;
         person_name: string;
-        depart_datetime: string;
+        depart_datetime: Date;
         depart_location: string;
         has_transfer: boolean;
-        arrival_datetime: string;
+        arrival_datetime: Date;
         arrival_location: string;
         hotel_name: string | null;
         lodging_status: string;
+        return_depart_datetime: Date | null;
+        return_depart_location: string | null;
+        return_arrival_datetime: Date | null;
+        return_arrival_location: string | null;
       }>(
         `select id, travel_code_id, person_name, depart_datetime, depart_location, has_transfer,
                 arrival_datetime, arrival_location, hotel_name, lodging_status,
@@ -65,7 +69,23 @@ export default async function TravelsPage() {
       )
     : { rows: [] as EntryRow[] };
 
-  const entryRows = entriesResult.rows as EntryRow[];
+  const entryRows = (entriesResult.rows as unknown as EntryRow[]).map((entry) => ({
+    ...entry,
+    depart_datetime: entry.depart_datetime instanceof Date
+      ? entry.depart_datetime.toISOString()
+      : entry.depart_datetime,
+    arrival_datetime: entry.arrival_datetime instanceof Date
+      ? entry.arrival_datetime.toISOString()
+      : entry.arrival_datetime,
+    return_depart_datetime:
+      entry.return_depart_datetime instanceof Date
+        ? entry.return_depart_datetime.toISOString()
+        : entry.return_depart_datetime,
+    return_arrival_datetime:
+      entry.return_arrival_datetime instanceof Date
+        ? entry.return_arrival_datetime.toISOString()
+        : entry.return_arrival_datetime,
+  }));
   return (
     <div className="space-y-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
