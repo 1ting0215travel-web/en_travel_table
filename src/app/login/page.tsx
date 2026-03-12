@@ -19,6 +19,9 @@ export default async function LoginPage() {
       redirect('/setup');
     }
   } catch (error: any) {
+    if (error?.digest === 'NEXT_REDIRECT' || error?.message === 'NEXT_REDIRECT') {
+      throw error;
+    }
     return (
       <div className="mx-auto max-w-md rounded-xl border bg-white p-6 shadow-sm">
         <h1 className="text-xl font-semibold">資料庫連線失敗</h1>
