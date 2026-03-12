@@ -44,7 +44,7 @@ export default async function EditTravelPage({
             return_depart_datetime, return_depart_location, return_has_transfer, return_transfer_location,
             return_arrival_datetime, return_arrival_location
      from travel_entries
-     where id = $1`,
+     where id::text = $1::text`,
     [params.id]
   );
 
