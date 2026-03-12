@@ -38,7 +38,7 @@ export default async function EditTravelPage({
             tc.is_open
      from travel_entries te
      join travel_codes tc on tc.id = te.travel_code_id
-     where te.id = $1 and te.is_destroyed = false`,
+     where te.id = $1 and (te.is_destroyed = false or te.is_destroyed is null)`,
     [params.id]
   );
 
@@ -102,7 +102,8 @@ export default async function EditTravelPage({
             arrival_location: entry.arrival_location,
             hotel_name: entry.hotel_name || '',
             lodging_status: entry.lodging_status,
-            transfers: transfersResult.rows.map(
+            transfers: transfersResult.rows.length
+              ? transfersResult.rows.map(
               (transfer: {
                 seq: number;
                 transfer_location: string;
@@ -110,7 +111,8 @@ export default async function EditTravelPage({
               }) => ({
               location: transfer.transfer_location,
             })
-            ),
+            )
+              : [{ location: '' }],
           }}
         />
       </div>

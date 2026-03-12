@@ -48,7 +48,7 @@ export default async function NewTravelPage() {
                   arrival_location: '',
                   hotel_name: '',
                   lodging_status: 'needs_partner',
-                  transfers: [],
+                  transfers: [{ location: '' }],
                 }
               : undefined
           }

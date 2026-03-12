@@ -34,7 +34,7 @@ export async function POST(request: Request) {
   const arrivalLocation = String(body.arrival_location || '').trim();
   const hotelName = String(body.hotel_name || '').trim() || null;
   const lodgingStatus = String(body.lodging_status || '').trim();
-  const transfers = Array.isArray(body.transfers) ? body.transfers : [];
+  const transfers = Array.isArray(body.transfers) ? body.transfers.slice(0, 2) : [];
 
   if (!travelCodeId || !personName || !departDatetime || !departLocation || !arrivalDatetime || !arrivalLocation || !lodgingStatus) {
     return NextResponse.json({ error: '請填寫完整資訊' }, { status: 400 });
@@ -114,7 +114,7 @@ export async function PUT(request: Request) {
   const arrivalLocation = String(body.arrival_location || '').trim();
   const hotelName = String(body.hotel_name || '').trim() || null;
   const lodgingStatus = String(body.lodging_status || '').trim();
-  const transfers = Array.isArray(body.transfers) ? body.transfers : [];
+  const transfers = Array.isArray(body.transfers) ? body.transfers.slice(0, 2) : [];
 
   if (!id || !travelCodeId || !personName || !departDatetime || !departLocation || !arrivalDatetime || !arrivalLocation || !lodgingStatus) {
     return NextResponse.json({ error: '請填寫完整資訊' }, { status: 400 });

@@ -171,13 +171,31 @@ export default function TravelForm({
             <button
               type="button"
               onClick={() =>
-                updateField('transfers', [...data.transfers, { location: '' }])
+                updateField(
+                  'transfers',
+                  data.transfers.length >= 2
+                    ? data.transfers
+                    : [...data.transfers, { location: '' }]
+                )
               }
+              disabled={data.transfers.length >= 2}
               className="rounded-md border px-3 py-1 text-sm"
             >
               新增轉機
             </button>
           </div>
+          {data.transfers.length === 0 && (
+            <div className="grid gap-2 sm:grid-cols-2">
+              <input
+                value=""
+                placeholder="轉機地點"
+                onChange={(event) =>
+                  updateField('transfers', [{ location: event.target.value }])
+                }
+                className="rounded-md border px-3 py-2"
+              />
+            </div>
+          )}
           {data.transfers.map((transfer, index) => (
             <div key={index} className="grid gap-2 sm:grid-cols-2">
               <input
