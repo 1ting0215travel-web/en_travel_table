@@ -145,6 +145,23 @@ export default function TravelForm({
             需要轉機
           </label>
         </div>
+        <div className="sm:col-span-2">
+          {data.has_transfer && (
+            <div className="space-y-2">
+              <p className="text-sm font-medium">轉機地點</p>
+              <div className="grid gap-2 sm:grid-cols-2">
+                <input
+                  value={data.transfers[0]?.location || ''}
+                  placeholder="轉機地點"
+                  onChange={(event) =>
+                    updateField('transfers', [{ location: event.target.value }])
+                  }
+                  className="rounded-md border px-3 py-2"
+                />
+              </div>
+            </div>
+          )}
+        </div>
         <div>
           <label className="text-sm font-medium">抵達日期時間</label>
           <input
@@ -168,21 +185,7 @@ export default function TravelForm({
         </div>
       </div>
 
-      {data.has_transfer && (
-        <div className="space-y-2">
-          <p className="text-sm font-medium">轉機地點</p>
-          <div className="grid gap-2 sm:grid-cols-2">
-            <input
-              value={data.transfers[0]?.location || ''}
-              placeholder="轉機地點"
-              onChange={(event) =>
-                updateField('transfers', [{ location: event.target.value }])
-              }
-              className="rounded-md border px-3 py-2"
-            />
-          </div>
-        </div>
-      )}
+      
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div>

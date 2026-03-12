@@ -31,42 +31,16 @@ export default async function EditTravelPage({
     arrival_location: string;
     hotel_name: string | null;
     lodging_status: string;
-    is_open: boolean | null;
+    is_destroyed: boolean | null;
   }>(
-    `select te.id, te.travel_code_id, te.person_name, te.depart_datetime, te.depart_location,
-            te.has_transfer, te.arrival_datetime, te.arrival_location, te.hotel_name, te.lodging_status,
-            tc.is_open
-     from travel_entries te
-     left join travel_codes tc on tc.id = te.travel_code_id
-     where te.id = $1 and (te.is_destroyed = false or te.is_destroyed is null)`,
+    `select id, travel_code_id, person_name, depart_datetime, depart_location,
+            has_transfer, arrival_datetime, arrival_location, hotel_name, lodging_status, is_destroyed
+     from travel_entries
+     where id = $1`,
     [params.id]
   );
 
-  let entry = entryResult.rows[0];
-  if (!entry) {
-    const fallback = await query<{
-      id: string;
-      travel_code_id: string;
-      person_name: string;
-      depart_datetime: string;
-      depart_location: string;
-      has_transfer: boolean;
-      arrival_datetime: string;
-      arrival_location: string;
-      hotel_name: string | null;
-      lodging_status: string;
-    }>(
-      `select id, travel_code_id, person_name, depart_datetime, depart_location,
-              has_transfer, arrival_datetime, arrival_location, hotel_name, lodging_status
-       from travel_entries
-       where id = $1`,
-      [params.id]
-    );
-    const raw = fallback.rows[0];
-    if (raw) {
-      entry = { ...raw, is_open: null };
-    }
-  }
+  const entry = entryResult.rows[0];
 
   if (!entry) {
     return (
@@ -77,7 +51,12 @@ export default async function EditTravelPage({
     );
   }
 
-  if (session.role === 'member' && entry.is_open === false) {
+  const codeState = await query<{ is_open: boolean | null }>(
+    'select is_open from travel_codes where id = $1',
+    [entry.travel_code_id]
+  );
+  const isOpen = codeState.rows[0]?.is_open ?? null;
+  if (session.role === 'member' && isOpen === false) {
     return (
       <div className="rounded-xl border bg-white p-6 shadow-sm">
         <h1 className="text-xl font-semibold">代碼已關閉</h1>
