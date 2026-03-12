@@ -31,13 +31,13 @@ export default async function EditTravelPage({
     arrival_location: string;
     hotel_name: string | null;
     lodging_status: string;
-    is_open: boolean;
+    is_open: boolean | null;
   }>(
     `select te.id, te.travel_code_id, te.person_name, te.depart_datetime, te.depart_location,
             te.has_transfer, te.arrival_datetime, te.arrival_location, te.hotel_name, te.lodging_status,
             tc.is_open
      from travel_entries te
-     join travel_codes tc on tc.id = te.travel_code_id
+     left join travel_codes tc on tc.id = te.travel_code_id
      where te.id = $1 and (te.is_destroyed = false or te.is_destroyed is null)`,
     [params.id]
   );
@@ -52,7 +52,7 @@ export default async function EditTravelPage({
     );
   }
 
-  if (session.role === 'member' && !entry.is_open) {
+  if (session.role === 'member' && entry.is_open === false) {
     return (
       <div className="rounded-xl border bg-white p-6 shadow-sm">
         <h1 className="text-xl font-semibold">代碼已關閉</h1>
