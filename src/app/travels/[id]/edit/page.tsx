@@ -102,10 +102,16 @@ export default async function EditTravelPage({
             arrival_location: entry.arrival_location,
             hotel_name: entry.hotel_name || '',
             lodging_status: entry.lodging_status,
-            transfers: transfersResult.rows.map((transfer) => ({
+            transfers: transfersResult.rows.map(
+              (transfer: {
+                seq: number;
+                transfer_location: string;
+                transfer_datetime: string | null;
+              }) => ({
               location: transfer.transfer_location,
               datetime: transfer.transfer_datetime ? toLocalInput(transfer.transfer_datetime) : '',
-            })),
+            })
+            ),
           }}
         />
       </div>
