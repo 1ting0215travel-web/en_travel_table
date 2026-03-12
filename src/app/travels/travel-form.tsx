@@ -66,6 +66,9 @@ export default function TravelForm({
 
     const payload = {
       ...data,
+      transfers: data.has_transfer
+        ? data.transfers.filter((item) => item.location.trim()).slice(0, 1)
+        : [],
       id: initialData?.id,
     };
 
@@ -132,6 +135,16 @@ export default function TravelForm({
             className="mt-1 w-full rounded-md border px-3 py-2"
           />
         </div>
+        <div className="sm:col-span-2">
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              checked={data.has_transfer}
+              onChange={(event) => updateField('has_transfer', event.target.checked)}
+            />
+            需要轉機
+          </label>
+        </div>
         <div>
           <label className="text-sm font-medium">抵達日期時間</label>
           <input
@@ -155,71 +168,19 @@ export default function TravelForm({
         </div>
       </div>
 
-      <label className="flex items-center gap-2 text-sm">
-        <input
-          type="checkbox"
-          checked={data.has_transfer}
-          onChange={(event) => updateField('has_transfer', event.target.checked)}
-        />
-        需要轉機
-      </label>
-
       {data.has_transfer && (
         <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <p className="text-sm font-medium">轉機資訊</p>
-            <button
-              type="button"
-              onClick={() =>
-                updateField(
-                  'transfers',
-                  data.transfers.length >= 2
-                    ? data.transfers
-                    : [...data.transfers, { location: '' }]
-                )
+          <p className="text-sm font-medium">轉機地點</p>
+          <div className="grid gap-2 sm:grid-cols-2">
+            <input
+              value={data.transfers[0]?.location || ''}
+              placeholder="轉機地點"
+              onChange={(event) =>
+                updateField('transfers', [{ location: event.target.value }])
               }
-              disabled={data.transfers.length >= 2}
-              className="rounded-md border px-3 py-1 text-sm"
-            >
-              新增轉機
-            </button>
+              className="rounded-md border px-3 py-2"
+            />
           </div>
-          {data.transfers.length === 0 && (
-            <div className="grid gap-2 sm:grid-cols-2">
-              <input
-                value=""
-                placeholder="轉機地點"
-                onChange={(event) =>
-                  updateField('transfers', [{ location: event.target.value }])
-                }
-                className="rounded-md border px-3 py-2"
-              />
-            </div>
-          )}
-          {data.transfers.map((transfer, index) => (
-            <div key={index} className="grid gap-2 sm:grid-cols-2">
-              <input
-                value={transfer.location}
-                placeholder="轉機地點"
-                onChange={(event) => {
-                  const updated = [...data.transfers];
-                  updated[index] = { ...transfer, location: event.target.value };
-                  updateField('transfers', updated);
-                }}
-                className="rounded-md border px-3 py-2"
-              />
-              <button
-                type="button"
-                onClick={() => {
-                  const updated = data.transfers.filter((_, i) => i !== index);
-                  updateField('transfers', updated);
-                }}
-                className="rounded-md border px-3 py-2 text-sm"
-              >
-                移除
-              </button>
-            </div>
-          ))}
         </div>
       )}
 

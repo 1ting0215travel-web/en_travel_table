@@ -42,7 +42,32 @@ export default async function EditTravelPage({
     [params.id]
   );
 
-  const entry = entryResult.rows[0];
+  let entry = entryResult.rows[0];
+  if (!entry) {
+    const fallback = await query<{
+      id: string;
+      travel_code_id: string;
+      person_name: string;
+      depart_datetime: string;
+      depart_location: string;
+      has_transfer: boolean;
+      arrival_datetime: string;
+      arrival_location: string;
+      hotel_name: string | null;
+      lodging_status: string;
+    }>(
+      `select id, travel_code_id, person_name, depart_datetime, depart_location,
+              has_transfer, arrival_datetime, arrival_location, hotel_name, lodging_status
+       from travel_entries
+       where id = $1`,
+      [params.id]
+    );
+    const raw = fallback.rows[0];
+    if (raw) {
+      entry = { ...raw, is_open: null };
+    }
+  }
+
   if (!entry) {
     return (
       <div className="rounded-xl border bg-white p-6 shadow-sm">
