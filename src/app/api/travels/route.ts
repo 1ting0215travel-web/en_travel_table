@@ -34,6 +34,16 @@ export async function POST(request: Request) {
   const arrivalLocation = String(body.arrival_location || '').trim();
   const hotelName = String(body.hotel_name || '').trim() || null;
   const lodgingStatus = String(body.lodging_status || '').trim();
+  const returnDepartDatetime = body.return_depart_datetime
+    ? normalizeDate(body.return_depart_datetime)
+    : null;
+  const returnDepartLocation = String(body.return_depart_location || '').trim() || null;
+  const returnHasTransfer = Boolean(body.return_has_transfer);
+  const returnTransferLocation = String(body.return_transfer_location || '').trim() || null;
+  const returnArrivalDatetime = body.return_arrival_datetime
+    ? normalizeDate(body.return_arrival_datetime)
+    : null;
+  const returnArrivalLocation = String(body.return_arrival_location || '').trim() || null;
   const transfers = Array.isArray(body.transfers) ? body.transfers.slice(0, 2) : [];
 
   if (!travelCodeId || !personName || !departDatetime || !departLocation || !arrivalDatetime || !arrivalLocation || !lodgingStatus) {
@@ -57,8 +67,9 @@ export async function POST(request: Request) {
   const entry = await withTransaction(async (client) => {
     const result = await client.query(
       `insert into travel_entries
-        (travel_code_id, person_name, depart_datetime, depart_location, has_transfer, arrival_datetime, arrival_location, hotel_name, lodging_status)
-       values ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+        (travel_code_id, person_name, depart_datetime, depart_location, has_transfer, arrival_datetime, arrival_location, hotel_name, lodging_status,
+         return_depart_datetime, return_depart_location, return_has_transfer, return_transfer_location, return_arrival_datetime, return_arrival_location)
+       values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
        returning id`,
       [
         travelCodeId,
@@ -70,6 +81,12 @@ export async function POST(request: Request) {
         arrivalLocation,
         hotelName,
         lodgingStatus,
+        returnDepartDatetime,
+        returnDepartLocation,
+        returnHasTransfer,
+        returnTransferLocation,
+        returnArrivalDatetime,
+        returnArrivalLocation,
       ]
     );
 
@@ -114,6 +131,16 @@ export async function PUT(request: Request) {
   const arrivalLocation = String(body.arrival_location || '').trim();
   const hotelName = String(body.hotel_name || '').trim() || null;
   const lodgingStatus = String(body.lodging_status || '').trim();
+  const returnDepartDatetime = body.return_depart_datetime
+    ? normalizeDate(body.return_depart_datetime)
+    : null;
+  const returnDepartLocation = String(body.return_depart_location || '').trim() || null;
+  const returnHasTransfer = Boolean(body.return_has_transfer);
+  const returnTransferLocation = String(body.return_transfer_location || '').trim() || null;
+  const returnArrivalDatetime = body.return_arrival_datetime
+    ? normalizeDate(body.return_arrival_datetime)
+    : null;
+  const returnArrivalLocation = String(body.return_arrival_location || '').trim() || null;
   const transfers = Array.isArray(body.transfers) ? body.transfers.slice(0, 2) : [];
 
   if (!id || !travelCodeId || !personName || !departDatetime || !departLocation || !arrivalDatetime || !arrivalLocation || !lodgingStatus) {
@@ -145,8 +172,14 @@ export async function PUT(request: Request) {
            arrival_datetime = $6,
            arrival_location = $7,
            hotel_name = $8,
-           lodging_status = $9
-       where id = $10`,
+           lodging_status = $9,
+           return_depart_datetime = $10,
+           return_depart_location = $11,
+           return_has_transfer = $12,
+           return_transfer_location = $13,
+           return_arrival_datetime = $14,
+           return_arrival_location = $15
+       where id = $16`,
       [
         travelCodeId,
         personName,
@@ -157,6 +190,12 @@ export async function PUT(request: Request) {
         arrivalLocation,
         hotelName,
         lodgingStatus,
+        returnDepartDatetime,
+        returnDepartLocation,
+        returnHasTransfer,
+        returnTransferLocation,
+        returnArrivalDatetime,
+        returnArrivalLocation,
         id,
       ]
     );

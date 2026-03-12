@@ -36,6 +36,10 @@ export default async function TravelsPage() {
     arrival_location: string;
     hotel_name: string | null;
     lodging_status: string;
+    return_depart_datetime: string | null;
+    return_depart_location: string | null;
+    return_arrival_datetime: string | null;
+    return_arrival_location: string | null;
   };
 
   const entriesResult = codeIds.length
@@ -52,7 +56,8 @@ export default async function TravelsPage() {
         lodging_status: string;
       }>(
         `select id, travel_code_id, person_name, depart_datetime, depart_location, has_transfer,
-                arrival_datetime, arrival_location, hotel_name, lodging_status
+                arrival_datetime, arrival_location, hotel_name, lodging_status,
+                return_depart_datetime, return_depart_location, return_arrival_datetime, return_arrival_location
          from travel_entries
          where is_destroyed = false and travel_code_id = any($1)
          order by created_at desc`,

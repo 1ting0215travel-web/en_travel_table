@@ -48,6 +48,12 @@ export default async function NewTravelPage() {
                   arrival_location: '',
                   hotel_name: '',
                   lodging_status: 'needs_partner',
+                  return_depart_datetime: '',
+                  return_depart_location: '',
+                  return_has_transfer: false,
+                  return_transfer_location: '',
+                  return_arrival_datetime: '',
+                  return_arrival_location: '',
                   transfers: [{ location: '' }],
                 }
               : undefined

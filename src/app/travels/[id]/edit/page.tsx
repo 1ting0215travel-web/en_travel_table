@@ -32,9 +32,17 @@ export default async function EditTravelPage({
     hotel_name: string | null;
     lodging_status: string;
     is_destroyed: boolean | null;
+    return_depart_datetime: string | null;
+    return_depart_location: string | null;
+    return_has_transfer: boolean | null;
+    return_transfer_location: string | null;
+    return_arrival_datetime: string | null;
+    return_arrival_location: string | null;
   }>(
     `select id, travel_code_id, person_name, depart_datetime, depart_location,
-            has_transfer, arrival_datetime, arrival_location, hotel_name, lodging_status, is_destroyed
+            has_transfer, arrival_datetime, arrival_location, hotel_name, lodging_status, is_destroyed,
+            return_depart_datetime, return_depart_location, return_has_transfer, return_transfer_location,
+            return_arrival_datetime, return_arrival_location
      from travel_entries
      where id = $1`,
     [params.id]
@@ -106,6 +114,16 @@ export default async function EditTravelPage({
             arrival_location: entry.arrival_location,
             hotel_name: entry.hotel_name || '',
             lodging_status: entry.lodging_status,
+            return_depart_datetime: entry.return_depart_datetime
+              ? toLocalInput(entry.return_depart_datetime)
+              : '',
+            return_depart_location: entry.return_depart_location || '',
+            return_has_transfer: entry.return_has_transfer || false,
+            return_transfer_location: entry.return_transfer_location || '',
+            return_arrival_datetime: entry.return_arrival_datetime
+              ? toLocalInput(entry.return_arrival_datetime)
+              : '',
+            return_arrival_location: entry.return_arrival_location || '',
             transfers: transfersResult.rows.length
               ? transfersResult.rows.map(
               (transfer: {

@@ -20,6 +20,10 @@ interface TravelEntry {
   arrival_location: string;
   hotel_name: string | null;
   lodging_status: string;
+  return_depart_datetime: string | null;
+  return_depart_location: string | null;
+  return_arrival_datetime: string | null;
+  return_arrival_location: string | null;
 }
 
 const lodgingLabels: Record<string, string> = {
@@ -153,19 +157,22 @@ export default function TravelsClient({
               <th className="px-3 py-2">操作</th>
               <th className="px-3 py-2">旅遊代碼</th>
               <th className="px-3 py-2">姓名</th>
-              <th className="px-3 py-2">出發日期</th>
-              <th className="px-3 py-2">出發地點</th>
-              <th className="px-3 py-2">抵達日期</th>
-              <th className="px-3 py-2">抵達地點</th>
-              <th className="px-3 py-2">是否轉機</th>
+              <th className="px-3 py-2">去程出發日期</th>
+              <th className="px-3 py-2">去程出發地點</th>
+              <th className="px-3 py-2">去程抵達日期</th>
+              <th className="px-3 py-2">去程抵達地點</th>
               <th className="px-3 py-2">住宿飯店</th>
               <th className="px-3 py-2">住宿狀態</th>
+              <th className="px-3 py-2">回程出發日期</th>
+              <th className="px-3 py-2">回程出發地點</th>
+              <th className="px-3 py-2">回程抵達日期</th>
+              <th className="px-3 py-2">回程抵達地點</th>
             </tr>
           </thead>
           <tbody>
             {filteredItems.length === 0 ? (
               <tr>
-                <td className="px-3 py-6 text-center text-slate-500" colSpan={10}>
+                <td className="px-3 py-6 text-center text-slate-500" colSpan={13}>
                   沒有符合條件的資料
                 </td>
               </tr>
@@ -204,17 +211,24 @@ export default function TravelsClient({
                       </div>
                     </td>
                     <td className="px-3 py-2">{entry.person_name}</td>
-                    <td className="px-3 py-2">{formatDate(entry.depart_datetime)}</td>
-                    <td className="px-3 py-2">{entry.depart_location}</td>
-                    <td className="px-3 py-2">{formatDate(entry.arrival_datetime)}</td>
-                    <td className="px-3 py-2">{entry.arrival_location}</td>
-                    <td className="px-3 py-2">{entry.has_transfer ? '是' : '否'}</td>
-                    <td className="px-3 py-2">{entry.hotel_name || '未填寫'}</td>
-                    <td className="px-3 py-2">
-                      {lodgingLabels[entry.lodging_status] || entry.lodging_status}
-                    </td>
-                  </tr>
-                );
+                <td className="px-3 py-2">{formatDate(entry.depart_datetime)}</td>
+                <td className="px-3 py-2">{entry.depart_location}</td>
+                <td className="px-3 py-2">{formatDate(entry.arrival_datetime)}</td>
+                <td className="px-3 py-2">{entry.arrival_location}</td>
+                <td className="px-3 py-2">{entry.hotel_name || '未填寫'}</td>
+                <td className="px-3 py-2">
+                  {lodgingLabels[entry.lodging_status] || entry.lodging_status}
+                </td>
+                <td className="px-3 py-2">
+                  {entry.return_depart_datetime ? formatDate(entry.return_depart_datetime) : '未填寫'}
+                </td>
+                <td className="px-3 py-2">{entry.return_depart_location || '未填寫'}</td>
+                <td className="px-3 py-2">
+                  {entry.return_arrival_datetime ? formatDate(entry.return_arrival_datetime) : '未填寫'}
+                </td>
+                <td className="px-3 py-2">{entry.return_arrival_location || '未填寫'}</td>
+              </tr>
+            );
               })
             )}
           </tbody>

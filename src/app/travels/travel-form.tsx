@@ -23,6 +23,12 @@ interface EntryData {
   arrival_location: string;
   hotel_name: string;
   lodging_status: string;
+  return_depart_datetime: string;
+  return_depart_location: string;
+  return_has_transfer: boolean;
+  return_transfer_location: string;
+  return_arrival_datetime: string;
+  return_arrival_location: string;
   transfers: Transfer[];
 }
 
@@ -49,6 +55,12 @@ export default function TravelForm({
       arrival_location: '',
       hotel_name: '',
       lodging_status: 'needs_partner',
+      return_depart_datetime: '',
+      return_depart_location: '',
+      return_has_transfer: false,
+      return_transfer_location: '',
+      return_arrival_datetime: '',
+      return_arrival_location: '',
       transfers: [],
     }
   );
@@ -91,6 +103,9 @@ export default function TravelForm({
   return (
     <form className="space-y-4" onSubmit={handleSubmit}>
       <div className="grid gap-4 sm:grid-cols-2">
+        <div className="sm:col-span-2">
+          <p className="text-sm font-semibold text-slate-700">去程</p>
+        </div>
         <div>
           <label className="text-sm font-medium">旅遊代碼</label>
           <select
@@ -207,6 +222,77 @@ export default function TravelForm({
             <option value="needs_partner">需徵伴</option>
             <option value="no_partner_needed">不需徵伴</option>
           </select>
+        </div>
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="sm:col-span-2">
+          <p className="text-sm font-semibold text-slate-700">回程</p>
+        </div>
+        <div>
+          <label className="text-sm font-medium">出發日期時間</label>
+          <input
+            type="datetime-local"
+            value={data.return_depart_datetime}
+            onChange={(event) => updateField('return_depart_datetime', event.target.value)}
+            className="mt-1 w-full rounded-md border px-3 py-2"
+          />
+        </div>
+        <div>
+          <label className="text-sm font-medium">
+            出發地點 <span className="text-xs text-slate-400">(ex.桃園機場)</span>
+          </label>
+          <input
+            value={data.return_depart_location}
+            onChange={(event) => updateField('return_depart_location', event.target.value)}
+            className="mt-1 w-full rounded-md border px-3 py-2"
+          />
+        </div>
+        <div className="sm:col-span-2">
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              checked={data.return_has_transfer}
+              onChange={(event) => updateField('return_has_transfer', event.target.checked)}
+            />
+            需要轉機
+          </label>
+        </div>
+        {data.return_has_transfer && (
+          <div className="sm:col-span-2">
+            <div className="space-y-2">
+              <p className="text-sm font-medium">轉機地點</p>
+              <div className="grid gap-2 sm:grid-cols-2">
+                <input
+                  value={data.return_transfer_location}
+                  placeholder="轉機地點"
+                  onChange={(event) =>
+                    updateField('return_transfer_location', event.target.value)
+                  }
+                  className="rounded-md border px-3 py-2"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+        <div>
+          <label className="text-sm font-medium">抵達日期時間</label>
+          <input
+            type="datetime-local"
+            value={data.return_arrival_datetime}
+            onChange={(event) => updateField('return_arrival_datetime', event.target.value)}
+            className="mt-1 w-full rounded-md border px-3 py-2"
+          />
+        </div>
+        <div>
+          <label className="text-sm font-medium">
+            抵達地點 <span className="text-xs text-slate-400">(ex.桃園機場)</span>
+          </label>
+          <input
+            value={data.return_arrival_location}
+            onChange={(event) => updateField('return_arrival_location', event.target.value)}
+            className="mt-1 w-full rounded-md border px-3 py-2"
+          />
         </div>
       </div>
 

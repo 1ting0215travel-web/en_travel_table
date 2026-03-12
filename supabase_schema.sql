@@ -55,6 +55,12 @@ create table if not exists travel_entries (
   arrival_location text not null,
   hotel_name text,
   lodging_status lodging_status not null,
+  return_depart_datetime timestamptz,
+  return_depart_location text,
+  return_has_transfer boolean not null default false,
+  return_transfer_location text,
+  return_arrival_datetime timestamptz,
+  return_arrival_location text,
   is_destroyed boolean not null default false,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
