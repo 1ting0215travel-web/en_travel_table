@@ -8,11 +8,11 @@ export default async function Header() {
     <header className="border-b bg-white/80 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <Link href="/travels" className="text-lg font-semibold text-slate-900">
-          旅遊共用表
+          追隨en之旅
         </Link>
         <nav className="flex items-center gap-4 text-sm text-slate-600">
           <Link href="/travels" className="hover:text-slate-900">
-            旅遊列表
+            航班及住宿列表
           </Link>
           {session?.role === 'admin' && (
             <>
