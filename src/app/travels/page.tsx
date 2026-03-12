@@ -25,6 +25,19 @@ export default async function TravelsPage() {
   const codes = codesResult.rows as { id: string; code_name: string; is_open: boolean }[];
   const codeIds = codes.map((code) => code.id);
 
+  type EntryRow = {
+    id: string;
+    travel_code_id: string;
+    person_name: string;
+    depart_datetime: string;
+    depart_location: string;
+    has_transfer: boolean;
+    arrival_datetime: string;
+    arrival_location: string;
+    hotel_name: string | null;
+    lodging_status: string;
+  };
+
   const entriesResult = codeIds.length
     ? await query<{
         id: string;
@@ -45,20 +58,10 @@ export default async function TravelsPage() {
          order by created_at desc`,
         [codeIds]
       )
-    : { rows: [] as {
-        id: string;
-        travel_code_id: string;
-        person_name: string;
-        depart_datetime: string;
-        depart_location: string;
-        has_transfer: boolean;
-        arrival_datetime: string;
-        arrival_location: string;
-        hotel_name: string | null;
-        lodging_status: string;
-      }[] };
+    : { rows: [] as EntryRow[] };
 
-  const entryIds = entriesResult.rows.map((entry) => entry.id);
+  const entryRows = entriesResult.rows as EntryRow[];
+  const entryIds = entryRows.map((entry) => entry.id);
 
   const transfersResult = entryIds.length
     ? await query<{
@@ -100,7 +103,7 @@ export default async function TravelsPage() {
       <TravelsClient
         role={session.role}
         codes={codes}
-        entries={entriesResult.rows}
+        entries={entryRows}
         transfers={transfersResult.rows}
       />
     </div>

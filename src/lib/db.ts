@@ -1,4 +1,4 @@
-import { Pool, PoolClient } from 'pg';
+import { Pool, PoolClient, type QueryResultRow } from 'pg';
 
 const databaseUrl = process.env.DATABASE_URL;
 if (!databaseUrl) {
@@ -10,7 +10,7 @@ export const pool = new Pool({
   ssl: { rejectUnauthorized: false },
 });
 
-export async function query<T = any>(text: string, params: any[] = []) {
+export async function query<T extends QueryResultRow = any>(text: string, params: any[] = []) {
   const result = await pool.query<T>(text, params);
   return result;
 }

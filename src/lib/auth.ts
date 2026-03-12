@@ -1,4 +1,4 @@
-import { SignJWT, jwtVerify } from 'jose';
+import { SignJWT, jwtVerify, type JWTPayload } from 'jose';
 import { cookies } from 'next/headers';
 
 const secret = process.env.AUTH_SECRET;
@@ -7,7 +7,7 @@ const cookieName = 'travel_auth';
 
 export type SessionRole = 'admin' | 'member';
 
-export interface SessionPayload {
+export interface SessionPayload extends JWTPayload {
   role: SessionRole;
   username?: string;
   name?: string;
