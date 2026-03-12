@@ -10,7 +10,6 @@ interface TravelCode {
 
 interface Transfer {
   location: string;
-  datetime: string;
 }
 
 interface EntryData {
@@ -123,7 +122,9 @@ export default function TravelForm({
           />
         </div>
         <div>
-          <label className="text-sm font-medium">出發地點</label>
+          <label className="text-sm font-medium">
+            出發地點 <span className="text-xs text-slate-400">(ex.桃園機場)</span>
+          </label>
           <input
             value={data.depart_location}
             onChange={(event) => updateField('depart_location', event.target.value)}
@@ -142,7 +143,9 @@ export default function TravelForm({
           />
         </div>
         <div>
-          <label className="text-sm font-medium">抵達地點</label>
+          <label className="text-sm font-medium">
+            抵達地點 <span className="text-xs text-slate-400">(ex.桃園機場)</span>
+          </label>
           <input
             value={data.arrival_location}
             onChange={(event) => updateField('arrival_location', event.target.value)}
@@ -168,10 +171,7 @@ export default function TravelForm({
             <button
               type="button"
               onClick={() =>
-                updateField('transfers', [
-                  ...data.transfers,
-                  { location: '', datetime: '' },
-                ])
+                updateField('transfers', [...data.transfers, { location: '' }])
               }
               className="rounded-md border px-3 py-1 text-sm"
             >
@@ -179,23 +179,13 @@ export default function TravelForm({
             </button>
           </div>
           {data.transfers.map((transfer, index) => (
-            <div key={index} className="grid gap-2 sm:grid-cols-3">
+            <div key={index} className="grid gap-2 sm:grid-cols-2">
               <input
                 value={transfer.location}
                 placeholder="轉機地點"
                 onChange={(event) => {
                   const updated = [...data.transfers];
                   updated[index] = { ...transfer, location: event.target.value };
-                  updateField('transfers', updated);
-                }}
-                className="rounded-md border px-3 py-2"
-              />
-              <input
-                type="datetime-local"
-                value={transfer.datetime}
-                onChange={(event) => {
-                  const updated = [...data.transfers];
-                  updated[index] = { ...transfer, datetime: event.target.value };
                   updateField('transfers', updated);
                 }}
                 className="rounded-md border px-3 py-2"

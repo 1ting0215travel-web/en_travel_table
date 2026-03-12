@@ -87,7 +87,7 @@ export default async function TravelsPage() {
     <div className="space-y-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold">旅遊列表</h1>
+          <h1 className="text-2xl font-semibold">航班及住宿列表</h1>
           <p className="mt-1 text-sm text-slate-600">
             新增並查看出發與住宿資料。
           </p>

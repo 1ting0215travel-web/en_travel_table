@@ -109,7 +109,6 @@ export default async function EditTravelPage({
                 transfer_datetime: string | null;
               }) => ({
               location: transfer.transfer_location,
-              datetime: transfer.transfer_datetime ? toLocalInput(transfer.transfer_datetime) : '',
             })
             ),
           }}

@@ -34,7 +34,7 @@ export default function LoginForm() {
       return;
     }
 
-    router.push('/travels');
+    window.location.assign('/travels');
   }
 
   return (

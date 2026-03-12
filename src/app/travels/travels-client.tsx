@@ -22,13 +22,6 @@ interface TravelEntry {
   lodging_status: string;
 }
 
-interface Transfer {
-  travel_entry_id: string;
-  seq: number;
-  transfer_location: string;
-  transfer_datetime: string | null;
-}
-
 const lodgingLabels: Record<string, string> = {
   already_has_partner: '已有伴',
   needs_partner: '需徵伴',
@@ -47,24 +40,41 @@ export default function TravelsClient({
   role,
   codes,
   entries,
-  transfers,
 }: {
   role: 'admin' | 'member';
   codes: TravelCode[];
   entries: TravelEntry[];
-  transfers: Transfer[];
 }) {
   const [items, setItems] = useState(entries);
-  const transferMap = useMemo(() => {
-    const map = new Map<string, Transfer[]>();
-    for (const transfer of transfers) {
-      if (!map.has(transfer.travel_entry_id)) {
-        map.set(transfer.travel_entry_id, []);
-      }
-      map.get(transfer.travel_entry_id)?.push(transfer);
+  const [codeFilter, setCodeFilter] = useState('all');
+  const [departFilter, setDepartFilter] = useState('');
+  const [lodgingFilter, setLodgingFilter] = useState('all');
+
+  const codeMap = useMemo(() => {
+    const map = new Map<string, TravelCode>();
+    for (const code of codes) {
+      map.set(code.id, code);
     }
     return map;
-  }, [transfers]);
+  }, [codes]);
+
+  const filteredItems = useMemo(() => {
+    return items.filter((entry) => {
+      if (codeFilter !== 'all' && entry.travel_code_id !== codeFilter) {
+        return false;
+      }
+      if (lodgingFilter !== 'all' && entry.lodging_status !== lodgingFilter) {
+        return false;
+      }
+      if (
+        departFilter &&
+        !entry.depart_location.toLowerCase().includes(departFilter.toLowerCase())
+      ) {
+        return false;
+      }
+      return true;
+    });
+  }, [items, codeFilter, departFilter, lodgingFilter]);
 
   async function deleteEntry(id: string) {
     const ok = confirm('確定要刪除這筆資料嗎？');
@@ -93,36 +103,82 @@ export default function TravelsClient({
   }
 
   return (
-    <div className="space-y-6">
-      {codes.map((code) => {
-        const codeEntries = items.filter((entry) => entry.travel_code_id === code.id);
+    <div className="space-y-4">
+      <div className="rounded-xl border bg-white p-4 shadow-sm">
+        <div className="grid gap-3 sm:grid-cols-3">
+          <div>
+            <label className="text-xs text-slate-500">旅遊代碼</label>
+            <select
+              value={codeFilter}
+              onChange={(event) => setCodeFilter(event.target.value)}
+              className="mt-1 w-full rounded-md border px-3 py-2 text-sm"
+            >
+              <option value="all">全部</option>
+              {codes.map((code) => (
+                <option key={code.id} value={code.id}>
+                  {code.code_name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="text-xs text-slate-500">出發地點</label>
+            <input
+              value={departFilter}
+              onChange={(event) => setDepartFilter(event.target.value)}
+              placeholder="輸入出發地點"
+              className="mt-1 w-full rounded-md border px-3 py-2 text-sm"
+            />
+          </div>
+          <div>
+            <label className="text-xs text-slate-500">住宿狀態</label>
+            <select
+              value={lodgingFilter}
+              onChange={(event) => setLodgingFilter(event.target.value)}
+              className="mt-1 w-full rounded-md border px-3 py-2 text-sm"
+            >
+              <option value="all">全部</option>
+              <option value="already_has_partner">已有伴</option>
+              <option value="needs_partner">需徵伴</option>
+              <option value="no_partner_needed">不需徵伴</option>
+            </select>
+          </div>
+        </div>
+      </div>
 
-        return (
-          <section key={code.id} className="rounded-xl border bg-white p-5 shadow-sm">
-            <div className="flex items-center gap-2">
-              <h2 className="text-lg font-semibold">{code.code_name}</h2>
-              {!code.is_open && role === 'admin' && (
-                <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs text-amber-700">
-                  關閉
-                </span>
-              )}
-            </div>
-
-            {codeEntries.length === 0 ? (
-              <p className="mt-3 text-sm text-slate-500">此代碼尚無資料。</p>
+      <div className="overflow-x-auto rounded-xl border bg-white shadow-sm">
+        <table className="w-full border-collapse text-sm">
+          <thead className="bg-slate-50 text-left text-xs text-slate-500">
+            <tr>
+              <th className="px-3 py-2">操作</th>
+              <th className="px-3 py-2">旅遊代碼</th>
+              <th className="px-3 py-2">姓名</th>
+              <th className="px-3 py-2">出發日期</th>
+              <th className="px-3 py-2">出發地點</th>
+              <th className="px-3 py-2">抵達日期</th>
+              <th className="px-3 py-2">抵達地點</th>
+              <th className="px-3 py-2">是否轉機</th>
+              <th className="px-3 py-2">住宿飯店</th>
+              <th className="px-3 py-2">住宿狀態</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredItems.length === 0 ? (
+              <tr>
+                <td className="px-3 py-6 text-center text-slate-500" colSpan={10}>
+                  沒有符合條件的資料
+                </td>
+              </tr>
             ) : (
-              <div className="mt-4 space-y-3">
-                {codeEntries.map((entry) => (
-                  <div key={entry.id} className="rounded-lg border p-4">
-                    <div className="flex flex-wrap items-center justify-between gap-3">
-                      <div>
-                        <p className="text-sm text-slate-500">姓名</p>
-                        <p className="font-medium">{entry.person_name}</p>
-                      </div>
+              filteredItems.map((entry) => {
+                const code = codeMap.get(entry.travel_code_id);
+                return (
+                  <tr key={entry.id} className="border-t">
+                    <td className="px-3 py-2">
                       <div className="flex gap-2">
                         <Link
                           href={`/travels/${entry.id}/edit`}
-                          className="rounded-md border px-3 py-1 text-sm text-slate-700 hover:bg-slate-50"
+                          className="rounded-md border px-2 py-1 text-xs text-slate-700 hover:bg-slate-50"
                         >
                           編輯
                         </Link>
@@ -130,57 +186,40 @@ export default function TravelsClient({
                           <button
                             type="button"
                             onClick={() => deleteEntry(entry.id)}
-                            className="rounded-md border px-3 py-1 text-sm text-slate-700 hover:bg-slate-50"
+                            className="rounded-md border px-2 py-1 text-xs text-slate-700 hover:bg-slate-50"
                           >
                             刪除
                           </button>
                         )}
                       </div>
-                    </div>
-
-                    <div className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
-                      <div>
-                        <p className="text-slate-500">出發航班</p>
-                        <p>{formatDate(entry.depart_datetime)}</p>
-                        <p className="text-slate-600">{entry.depart_location}</p>
+                    </td>
+                    <td className="px-3 py-2">
+                      <div className="flex items-center gap-2">
+                        <span>{code?.code_name || '未知'}</span>
+                        {!code?.is_open && role === 'admin' && (
+                          <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] text-amber-700">
+                            關閉
+                          </span>
+                        )}
                       </div>
-                      <div>
-                        <p className="text-slate-500">抵達航班</p>
-                        <p>{formatDate(entry.arrival_datetime)}</p>
-                        <p className="text-slate-600">{entry.arrival_location}</p>
-                      </div>
-                      <div>
-                        <p className="text-slate-500">住宿飯店</p>
-                        <p>{entry.hotel_name || '未填寫'}</p>
-                      </div>
-                      <div>
-                        <p className="text-slate-500">住宿狀態</p>
-                        <p>{lodgingLabels[entry.lodging_status] || entry.lodging_status}</p>
-                      </div>
-                    </div>
-
-                    {entry.has_transfer && (
-                      <div className="mt-3 text-sm">
-                        <p className="text-slate-500">轉機資訊</p>
-                        <ul className="mt-1 list-disc pl-5 text-slate-700">
-                          {(transferMap.get(entry.id) || []).map((transfer) => (
-                            <li key={`${entry.id}-${transfer.seq}`}>
-                              {transfer.transfer_location}
-                              {transfer.transfer_datetime
-                                ? `（${formatDate(transfer.transfer_datetime)}）`
-                                : ''}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
+                    </td>
+                    <td className="px-3 py-2">{entry.person_name}</td>
+                    <td className="px-3 py-2">{formatDate(entry.depart_datetime)}</td>
+                    <td className="px-3 py-2">{entry.depart_location}</td>
+                    <td className="px-3 py-2">{formatDate(entry.arrival_datetime)}</td>
+                    <td className="px-3 py-2">{entry.arrival_location}</td>
+                    <td className="px-3 py-2">{entry.has_transfer ? '是' : '否'}</td>
+                    <td className="px-3 py-2">{entry.hotel_name || '未填寫'}</td>
+                    <td className="px-3 py-2">
+                      {lodgingLabels[entry.lodging_status] || entry.lodging_status}
+                    </td>
+                  </tr>
+                );
+              })
             )}
-          </section>
-        );
-      })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
