@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import TravelForm from './travel-form';
 
 interface TravelCode {
@@ -61,6 +61,7 @@ export default function TravelsClient({
   entries: TravelEntry[];
 }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [items, setItems] = useState(entries);
   const [codeFilter, setCodeFilter] = useState('all');
   const [departFilter, setDepartFilter] = useState('');
@@ -91,6 +92,13 @@ export default function TravelsClient({
   useEffect(() => {
     setItems(entries);
   }, [entries]);
+
+  useEffect(() => {
+    const editId = searchParams.get('edit');
+    if (!editId) return;
+    openEdit(editId);
+    router.replace('/travels');
+  }, [searchParams, router]);
 
   const codeMap = useMemo(() => {
     const map = new Map<string, TravelCode>();
