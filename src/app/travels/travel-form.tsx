@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 interface TravelCode {
@@ -37,11 +37,13 @@ export default function TravelForm({
   role,
   codes,
   initialData,
+  onSuccess,
 }: {
   mode: 'create' | 'edit';
   role: 'admin' | 'member';
   codes: TravelCode[];
   initialData?: EntryData;
+  onSuccess?: () => void;
 }) {
   const router = useRouter();
   const [data, setData] = useState<EntryData>(
@@ -66,6 +68,12 @@ export default function TravelForm({
   );
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (mode === 'edit' && initialData) {
+      setData(initialData);
+    }
+  }, [initialData, mode]);
 
   function updateField<K extends keyof EntryData>(key: K, value: EntryData[K]) {
     setData((prev) => ({ ...prev, [key]: value }));
@@ -93,6 +101,12 @@ export default function TravelForm({
     if (!response.ok) {
       const result = await response.json().catch(() => ({}));
       setError(result?.error || '儲存失敗');
+      setLoading(false);
+      return;
+    }
+
+    if (onSuccess) {
+      onSuccess();
       setLoading(false);
       return;
     }

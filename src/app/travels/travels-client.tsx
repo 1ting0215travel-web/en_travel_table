@@ -1,7 +1,8 @@
 'use client';
 
-import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import TravelForm from './travel-form';
 
 interface TravelCode {
   id: string;
@@ -22,6 +23,8 @@ interface TravelEntry {
   lodging_status: string;
   return_depart_datetime: string | null;
   return_depart_location: string | null;
+  return_has_transfer?: boolean | null;
+  return_transfer_location?: string | null;
   return_arrival_datetime: string | null;
   return_arrival_location: string | null;
 }
@@ -40,6 +43,14 @@ function formatDate(value: string) {
   }).format(date);
 }
 
+function toLocalInput(value: string | null) {
+  if (!value) return '';
+  const date = new Date(value);
+  const offset = date.getTimezoneOffset() * 60000;
+  const local = new Date(date.getTime() - offset);
+  return local.toISOString().slice(0, 16);
+}
+
 export default function TravelsClient({
   role,
   codes,
@@ -49,10 +60,37 @@ export default function TravelsClient({
   codes: TravelCode[];
   entries: TravelEntry[];
 }) {
+  const router = useRouter();
   const [items, setItems] = useState(entries);
   const [codeFilter, setCodeFilter] = useState('all');
   const [departFilter, setDepartFilter] = useState('');
   const [lodgingFilter, setLodgingFilter] = useState('all');
+  const [editOpen, setEditOpen] = useState(false);
+  const [editLoading, setEditLoading] = useState(false);
+  const [editError, setEditError] = useState<string | null>(null);
+  const [editData, setEditData] = useState<null | {
+    id: string;
+    travel_code_id: string;
+    person_name: string;
+    depart_datetime: string;
+    depart_location: string;
+    has_transfer: boolean;
+    arrival_datetime: string;
+    arrival_location: string;
+    hotel_name: string;
+    lodging_status: string;
+    return_depart_datetime: string;
+    return_depart_location: string;
+    return_has_transfer: boolean;
+    return_transfer_location: string;
+    return_arrival_datetime: string;
+    return_arrival_location: string;
+    transfers: { location: string }[];
+  }>(null);
+
+  useEffect(() => {
+    setItems(entries);
+  }, [entries]);
 
   const codeMap = useMemo(() => {
     const map = new Map<string, TravelCode>();
@@ -96,6 +134,61 @@ export default function TravelsClient({
     }
 
     setItems(items.filter((item) => item.id !== id));
+  }
+
+  async function openEdit(id: string) {
+    setEditOpen(true);
+    setEditLoading(true);
+    setEditError(null);
+    setEditData(null);
+
+    const response = await fetch(`/api/travels/${id}`);
+    if (!response.ok) {
+      setEditError('載入失敗，請稍後再試');
+      setEditLoading(false);
+      return;
+    }
+
+    const result = await response.json().catch(() => null);
+    if (!result?.entry) {
+      setEditError('找不到資料');
+      setEditLoading(false);
+      return;
+    }
+
+    const entry = result.entry as TravelEntry & {
+      transfers?: { location: string }[];
+    };
+
+    setEditData({
+      id: entry.id,
+      travel_code_id: entry.travel_code_id,
+      person_name: entry.person_name,
+      depart_datetime: toLocalInput(entry.depart_datetime),
+      depart_location: entry.depart_location,
+      has_transfer: entry.has_transfer,
+      arrival_datetime: toLocalInput(entry.arrival_datetime),
+      arrival_location: entry.arrival_location,
+      hotel_name: entry.hotel_name || '',
+      lodging_status: entry.lodging_status,
+      return_depart_datetime: toLocalInput(entry.return_depart_datetime || null),
+      return_depart_location: entry.return_depart_location || '',
+      return_has_transfer: Boolean(entry.return_has_transfer),
+      return_transfer_location: entry.return_transfer_location || '',
+      return_arrival_datetime: toLocalInput(entry.return_arrival_datetime || null),
+      return_arrival_location: entry.return_arrival_location || '',
+      transfers: entry.transfers?.length
+        ? [{ location: entry.transfers[0].location }]
+        : [{ location: '' }],
+    });
+
+    setEditLoading(false);
+  }
+
+  function closeEdit() {
+    setEditOpen(false);
+    setEditData(null);
+    setEditError(null);
   }
 
   if (codes.length === 0) {
@@ -183,12 +276,13 @@ export default function TravelsClient({
                   <tr key={entry.id} className="border-t">
                     <td className="px-3 py-2">
                       <div className="flex gap-2">
-                        <Link
-                          href={`/travels/${entry.id}/edit`}
+                        <button
+                          type="button"
+                          onClick={() => openEdit(entry.id)}
                           className="rounded-md border px-2 py-1 text-xs text-slate-700 hover:bg-slate-50"
                         >
                           編輯
-                        </Link>
+                        </button>
                         {role === 'admin' && (
                           <button
                             type="button"
@@ -234,6 +328,47 @@ export default function TravelsClient({
           </tbody>
         </table>
       </div>
+
+      {editOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-10">
+          <div className="max-h-full w-full max-w-3xl overflow-y-auto rounded-xl bg-white p-6 shadow-lg">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold">編輯旅遊資料</h2>
+              <button
+                type="button"
+                onClick={closeEdit}
+                className="rounded-md border px-3 py-1 text-sm text-slate-700 hover:bg-slate-50"
+              >
+                關閉
+              </button>
+            </div>
+            <div className="mt-4">
+              {editLoading && (
+                <div className="rounded-md border bg-slate-50 p-4 text-sm text-slate-600">
+                  載入中...
+                </div>
+              )}
+              {editError && (
+                <div className="rounded-md border border-amber-200 bg-amber-50 p-4 text-sm text-amber-700">
+                  {editError}
+                </div>
+              )}
+              {editData && (
+                <TravelForm
+                  mode="edit"
+                  role={role}
+                  codes={codes}
+                  initialData={editData}
+                  onSuccess={() => {
+                    closeEdit();
+                    router.refresh();
+                  }}
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
