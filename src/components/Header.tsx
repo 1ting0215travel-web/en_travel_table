@@ -6,9 +6,9 @@ export default async function Header() {
 
   return (
     <header className="border-b bg-white/80 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+      <div className="mx-auto flex max-w-[1280px] items-center justify-between px-4 py-3">
         <Link href="/travels" className="text-lg font-semibold text-slate-900">
-          追隨en之旅
+          見了還想見-en
         </Link>
         <nav className="flex items-center gap-4 text-sm text-slate-600">
           <Link href="/travels" className="hover:text-slate-900">

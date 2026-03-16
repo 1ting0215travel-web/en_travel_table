@@ -10,7 +10,7 @@ const notoSans = Noto_Sans_TC({
 });
 
 export const metadata: Metadata = {
-  title: '旅遊共用表',
+  title: '見了還想見-en',
   description: '旅遊出發與住宿共用資訊',
 };
 
@@ -23,7 +23,7 @@ export default function RootLayout({
     <html lang="zh-Hant" className={notoSans.variable}>
       <body className="min-h-screen bg-slate-50 text-slate-900">
         <Header />
-        <main className="mx-auto max-w-6xl px-4 py-6">{children}</main>
+        <main className="mx-auto max-w-[1280px] px-4 py-6">{children}</main>
       </body>
     </html>
   );
