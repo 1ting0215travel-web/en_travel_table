@@ -13,7 +13,7 @@ export default async function LoginPage() {
     const adminResult = await query<{ count: string }>(
       'select count(*) from app_users where is_destroyed = false'
     );
-    const settingsResult = await query<{ member_login_password_hash: string }>(
+    const settingsResult = await query<{ member_login_password_hash: string; login_background: string | null }>(
       'select member_login_password_hash, login_background from app_settings where id = 1'
     );
 
