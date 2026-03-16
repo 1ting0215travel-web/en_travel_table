@@ -252,12 +252,18 @@ export default function TravelsClient({
       </div>
 
       <div className="overflow-x-auto rounded-xl border bg-white shadow-sm">
-        <table className="w-full border-collapse text-sm">
+        <table className="min-w-[1200px] border-collapse text-sm">
           <thead className="bg-slate-50 text-left text-xs text-slate-500">
             <tr>
-              <th className="px-3 py-2">操作</th>
-              <th className="px-3 py-2">旅遊代碼</th>
-              <th className="px-3 py-2">姓名</th>
+              <th className="sticky left-0 z-10 w-[120px] bg-slate-50 px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)]">
+                操作
+              </th>
+              <th className="sticky left-[120px] z-10 w-[160px] bg-slate-50 px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)]">
+                旅遊代碼
+              </th>
+              <th className="sticky left-[280px] z-10 w-[120px] bg-slate-50 px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)]">
+                姓名
+              </th>
               <th className="px-3 py-2">去程出發日期</th>
               <th className="px-3 py-2">去程出發地點</th>
               <th className="px-3 py-2">去程抵達日期</th>
@@ -282,7 +288,7 @@ export default function TravelsClient({
                 const code = codeMap.get(entry.travel_code_id);
                 return (
                   <tr key={entry.id} className="border-t">
-                    <td className="px-3 py-2">
+                    <td className="sticky left-0 z-10 w-[120px] bg-white px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)]">
                       <div className="flex gap-2">
                         <button
                           type="button"
@@ -302,7 +308,7 @@ export default function TravelsClient({
                         )}
                       </div>
                     </td>
-                    <td className="px-3 py-2">
+                    <td className="sticky left-[120px] z-10 w-[160px] bg-white px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)]">
                       <div className="flex items-center gap-2">
                         <span>{code?.code_name || '未知'}</span>
                         {!code?.is_open && role === 'admin' && (
@@ -312,7 +318,9 @@ export default function TravelsClient({
                         )}
                       </div>
                     </td>
-                    <td className="px-3 py-2">{entry.person_name}</td>
+                    <td className="sticky left-[280px] z-10 w-[120px] bg-white px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)]">
+                      {entry.person_name}
+                    </td>
                 <td className="px-3 py-2">{formatDate(entry.depart_datetime)}</td>
                 <td className="px-3 py-2">{entry.depart_location}</td>
                 <td className="px-3 py-2">{formatDate(entry.arrival_datetime)}</td>
