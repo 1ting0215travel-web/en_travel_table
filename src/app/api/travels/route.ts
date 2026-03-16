@@ -54,16 +54,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: '住宿狀態不正確' }, { status: 400 });
   }
 
-  if (session.role === 'member') {
-    const codeResult = await query<{ is_open: boolean }>(
-      'select is_open from travel_codes where id = $1 and is_destroyed = false',
-      [travelCodeId]
-    );
-    if (!codeResult.rows[0]?.is_open) {
-      return NextResponse.json({ error: '此旅遊代碼已關閉' }, { status: 403 });
-    }
-  }
-
   const entry = await withTransaction(async (client) => {
     const result = await client.query(
       `insert into travel_entries
@@ -149,16 +139,6 @@ export async function PUT(request: Request) {
 
   if (!['already_has_partner', 'needs_partner', 'no_partner_needed'].includes(lodgingStatus)) {
     return NextResponse.json({ error: '住宿狀態不正確' }, { status: 400 });
-  }
-
-  if (session.role === 'member') {
-    const codeResult = await query<{ is_open: boolean }>(
-      'select is_open from travel_codes where id = $1 and is_destroyed = false',
-      [travelCodeId]
-    );
-    if (!codeResult.rows[0]?.is_open) {
-      return NextResponse.json({ error: '此旅遊代碼已關閉' }, { status: 403 });
-    }
   }
 
   await withTransaction(async (client) => {

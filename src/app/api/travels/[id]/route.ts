@@ -49,16 +49,6 @@ export async function GET(
     return NextResponse.json({ error: 'Not found' }, { status: 404 });
   }
 
-  if (session.role === 'member') {
-    const codeResult = await query<{ is_open: boolean }>(
-      'select is_open from travel_codes where id = $1 and is_destroyed = false',
-      [entry.travel_code_id]
-    );
-    if (!codeResult.rows[0]?.is_open) {
-      return NextResponse.json({ error: '此旅遊代碼已關閉' }, { status: 403 });
-    }
-  }
-
   const transfersResult = await query<{ transfer_location: string }>(
     `select transfer_location
      from travel_transfers

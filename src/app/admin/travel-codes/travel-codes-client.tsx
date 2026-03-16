@@ -41,7 +41,6 @@ export default function TravelCodesClient({ initialCodes }: { initialCodes: Trav
       body: JSON.stringify({
         id: code.id,
         code_name: patch.code_name ?? code.code_name,
-        is_open: patch.is_open ?? code.is_open,
       }),
     });
 
@@ -110,14 +109,6 @@ export default function TravelCodesClient({ initialCodes }: { initialCodes: Trav
               }
               onBlur={(event) => updateCode(code, { code_name: event.target.value })}
             />
-            <label className="flex items-center gap-2 text-sm">
-              <input
-                type="checkbox"
-                checked={code.is_open}
-                onChange={(event) => updateCode(code, { is_open: event.target.checked })}
-              />
-              開啟
-            </label>
             <button
               type="button"
               onClick={() => deleteCode(code.id)}

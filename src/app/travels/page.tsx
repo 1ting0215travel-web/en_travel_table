@@ -18,7 +18,6 @@ export default async function TravelsPage() {
     `select id, code_name, is_open
      from travel_codes
      where is_destroyed = false
-     ${session.role === 'member' ? 'and is_open = true' : ''}
      order by created_at desc`
   );
 

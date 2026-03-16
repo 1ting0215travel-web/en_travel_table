@@ -46,15 +46,13 @@ export async function PUT(request: Request) {
   const body = await request.json().catch(() => null);
   const id = String(body?.id || '').trim();
   const codeName = String(body?.code_name || '').trim();
-  const isOpen = Boolean(body?.is_open);
-
   if (!id || !codeName) {
     return NextResponse.json({ error: '請提供完整資訊' }, { status: 400 });
   }
 
   const result = await query(
-    'update travel_codes set code_name = $1, is_open = $2 where id = $3 returning id, code_name, is_open, is_destroyed',
-    [codeName, isOpen, id]
+    'update travel_codes set code_name = $1 where id = $2 returning id, code_name, is_open, is_destroyed',
+    [codeName, id]
   );
 
   return NextResponse.json({ data: result.rows[0] });

@@ -344,11 +344,7 @@ export default function TravelsClient({
                     <td className="sticky left-[var(--col-op)] z-20 box-border w-[var(--col-code)] bg-white px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)] break-words overflow-hidden">
                       <div className="flex items-center gap-2">
                         <span>{code?.code_name || '未知'}</span>
-                        {!code?.is_open && role === 'admin' && (
-                          <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] text-amber-700">
-                            關閉
-                          </span>
-                        )}
+                        
                       </div>
                     </td>
                     <td className="sticky left-[calc(var(--col-op)+var(--col-code))] z-20 box-border w-[var(--col-name)] bg-white px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)] break-words overflow-hidden">
