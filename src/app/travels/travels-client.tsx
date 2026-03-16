@@ -261,31 +261,40 @@ export default function TravelsClient({
       <p className="text-xs text-slate-500">可左右滑動查看更多欄位。</p>
 
       <div className="overflow-x-auto rounded-xl border bg-white shadow-sm">
-        <table className="min-w-[1200px] table-fixed border-collapse text-sm">
+        <table
+          className="min-w-[1200px] table-fixed border-collapse text-sm"
+          style={{
+            '--col-op': '120px',
+            '--col-code': '7em',
+            '--col-name': '5em',
+            '--col-date': '130px',
+            '--col-short': '5em',
+          } as React.CSSProperties}
+        >
           <colgroup>
-            <col style={{ width: '120px' }} />
-            <col style={{ width: '7em' }} />
-            <col style={{ width: '5em' }} />
-            <col style={{ width: '130px' }} />
-            <col style={{ width: '5em' }} />
-            <col style={{ width: '130px' }} />
-            <col style={{ width: '5em' }} />
-            <col style={{ width: '5em' }} />
-            <col style={{ width: '5em' }} />
-            <col style={{ width: '130px' }} />
-            <col style={{ width: '5em' }} />
-            <col style={{ width: '130px' }} />
-            <col style={{ width: '5em' }} />
+            <col style={{ width: 'var(--col-op)' }} />
+            <col style={{ width: 'var(--col-code)' }} />
+            <col style={{ width: 'var(--col-name)' }} />
+            <col style={{ width: 'var(--col-date)' }} />
+            <col style={{ width: 'var(--col-short)' }} />
+            <col style={{ width: 'var(--col-date)' }} />
+            <col style={{ width: 'var(--col-short)' }} />
+            <col style={{ width: 'var(--col-short)' }} />
+            <col style={{ width: 'var(--col-short)' }} />
+            <col style={{ width: 'var(--col-date)' }} />
+            <col style={{ width: 'var(--col-short)' }} />
+            <col style={{ width: 'var(--col-date)' }} />
+            <col style={{ width: 'var(--col-short)' }} />
           </colgroup>
           <thead className="bg-slate-50 text-left text-sm text-slate-500">
             <tr>
-              <th className="sticky left-0 z-30 bg-slate-50 px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)]">
+              <th className="sticky left-0 z-30 box-border w-[var(--col-op)] bg-slate-50 px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)]">
                 操作
               </th>
-              <th className="sticky left-[120px] z-30 bg-slate-50 px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)] break-keep">
+              <th className="sticky left-[var(--col-op)] z-30 box-border w-[var(--col-code)] bg-slate-50 px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)] break-keep">
                 旅遊代碼
               </th>
-              <th className="sticky left-[calc(120px+7em)] z-30 bg-slate-50 px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)] break-keep">
+              <th className="sticky left-[calc(var(--col-op)+var(--col-code))] z-30 box-border w-[var(--col-name)] bg-slate-50 px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)] break-keep">
                 姓名
               </th>
               <th className="px-3 py-2 whitespace-nowrap">去程出發日期</th>
@@ -312,7 +321,7 @@ export default function TravelsClient({
                 const code = codeMap.get(entry.travel_code_id);
                 return (
                   <tr key={entry.id} className="border-t">
-                    <td className="sticky left-0 z-20 bg-white px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)]">
+                    <td className="sticky left-0 z-20 box-border w-[var(--col-op)] bg-white px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)]">
                       <div className="flex gap-2">
                         <button
                           type="button"
@@ -332,7 +341,7 @@ export default function TravelsClient({
                         )}
                       </div>
                     </td>
-                    <td className="sticky left-[120px] z-20 bg-white px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)] break-words">
+                    <td className="sticky left-[var(--col-op)] z-20 box-border w-[var(--col-code)] bg-white px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)] break-words overflow-hidden">
                       <div className="flex items-center gap-2">
                         <span>{code?.code_name || '未知'}</span>
                         {!code?.is_open && role === 'admin' && (
@@ -342,7 +351,7 @@ export default function TravelsClient({
                         )}
                       </div>
                     </td>
-                    <td className="sticky left-[calc(120px+7em)] z-20 bg-white px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)] break-words">
+                    <td className="sticky left-[calc(var(--col-op)+var(--col-code))] z-20 box-border w-[var(--col-name)] bg-white px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)] break-words overflow-hidden">
                       {entry.person_name}
                     </td>
                 <td className="px-3 py-2">
