@@ -267,21 +267,21 @@ export default function TravelsClient({
               <th className="sticky left-0 z-10 w-[120px] bg-slate-50 px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)]">
                 操作
               </th>
-              <th className="sticky left-[120px] z-10 w-[5em] bg-slate-50 px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)] break-keep">
+              <th className="sticky left-[120px] z-10 w-[7em] bg-slate-50 px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)] break-keep">
                 旅遊代碼
               </th>
-              <th className="sticky left-[calc(120px+5em)] z-10 w-[5em] bg-slate-50 px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)] break-keep">
+              <th className="sticky left-[calc(120px+7em)] z-10 w-[5em] bg-slate-50 px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)] break-keep">
                 姓名
               </th>
-              <th className="px-3 py-2 min-w-[180px] whitespace-nowrap">去程出發日期</th>
+              <th className="px-3 py-2 min-w-[130px] whitespace-nowrap">去程出發日期</th>
               <th className="px-3 py-2 w-[5em] break-keep">去程出發地點</th>
-              <th className="px-3 py-2 min-w-[180px] whitespace-nowrap">去程抵達日期</th>
+              <th className="px-3 py-2 min-w-[130px] whitespace-nowrap">去程抵達日期</th>
               <th className="px-3 py-2 w-[5em] break-keep">去程抵達地點</th>
               <th className="px-3 py-2 w-[5em] break-keep">住宿飯店</th>
               <th className="px-3 py-2 w-[5em] break-keep">住宿狀態</th>
-              <th className="px-3 py-2 min-w-[180px] whitespace-nowrap">回程出發日期</th>
+              <th className="px-3 py-2 min-w-[130px] whitespace-nowrap">回程出發日期</th>
               <th className="px-3 py-2 w-[5em] break-keep">回程出發地點</th>
-              <th className="px-3 py-2 min-w-[180px] whitespace-nowrap">回程抵達日期</th>
+              <th className="px-3 py-2 min-w-[130px] whitespace-nowrap">回程抵達日期</th>
               <th className="px-3 py-2 w-[5em] break-keep">回程抵達地點</th>
             </tr>
           </thead>
@@ -317,7 +317,7 @@ export default function TravelsClient({
                         )}
                       </div>
                     </td>
-                    <td className="sticky left-[120px] z-10 w-[5em] bg-white px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)] break-words">
+                    <td className="sticky left-[120px] z-10 w-[7em] bg-white px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)] break-words">
                       <div className="flex items-center gap-2">
                         <span>{code?.code_name || '未知'}</span>
                         {!code?.is_open && role === 'admin' && (
@@ -327,7 +327,7 @@ export default function TravelsClient({
                         )}
                       </div>
                     </td>
-                    <td className="sticky left-[calc(120px+5em)] z-10 w-[5em] bg-white px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)] break-words">
+                    <td className="sticky left-[calc(120px+7em)] z-10 w-[5em] bg-white px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)] break-words">
                       {entry.person_name}
                     </td>
                 <td className="px-3 py-2">
