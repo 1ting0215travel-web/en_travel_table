@@ -259,7 +259,7 @@ export default function TravelsClient({
 
       <div className="overflow-x-auto rounded-xl border bg-white shadow-sm">
         <table className="min-w-[1200px] border-collapse text-sm">
-          <thead className="bg-slate-50 text-left text-xs text-slate-500">
+          <thead className="bg-slate-50 text-left text-sm text-slate-500">
             <tr>
               <th className="sticky left-0 z-10 w-[120px] bg-slate-50 px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)]">
                 操作
@@ -270,16 +270,16 @@ export default function TravelsClient({
               <th className="sticky left-[280px] z-10 w-[120px] bg-slate-50 px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)]">
                 姓名
               </th>
-              <th className="px-3 py-2">去程出發日期</th>
-              <th className="px-3 py-2">去程出發地點</th>
-              <th className="px-3 py-2">去程抵達日期</th>
-              <th className="px-3 py-2">去程抵達地點</th>
-              <th className="px-3 py-2">住宿飯店</th>
-              <th className="px-3 py-2">住宿狀態</th>
-              <th className="px-3 py-2">回程出發日期</th>
-              <th className="px-3 py-2">回程出發地點</th>
-              <th className="px-3 py-2">回程抵達日期</th>
-              <th className="px-3 py-2">回程抵達地點</th>
+              <th className="px-3 py-2 min-w-[170px]">去程出發日期</th>
+              <th className="px-3 py-2 w-[5em]">去程出發地點</th>
+              <th className="px-3 py-2 min-w-[170px]">去程抵達日期</th>
+              <th className="px-3 py-2 w-[5em]">去程抵達地點</th>
+              <th className="px-3 py-2 w-[5em]">住宿飯店</th>
+              <th className="px-3 py-2 w-[5em]">住宿狀態</th>
+              <th className="px-3 py-2 min-w-[170px]">回程出發日期</th>
+              <th className="px-3 py-2 w-[5em]">回程出發地點</th>
+              <th className="px-3 py-2 min-w-[170px]">回程抵達日期</th>
+              <th className="px-3 py-2 w-[5em]">回程抵達地點</th>
             </tr>
           </thead>
           <tbody>
@@ -327,22 +327,22 @@ export default function TravelsClient({
                     <td className="sticky left-[280px] z-10 w-[120px] bg-white px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)]">
                       {entry.person_name}
                     </td>
-                <td className="px-3 py-2">{formatDate(entry.depart_datetime)}</td>
-                <td className="px-3 py-2">{entry.depart_location}</td>
-                <td className="px-3 py-2">{formatDate(entry.arrival_datetime)}</td>
-                <td className="px-3 py-2">{entry.arrival_location}</td>
-                <td className="px-3 py-2">{entry.hotel_name || ''}</td>
-                <td className="px-3 py-2">
+                <td className="px-3 py-2 whitespace-nowrap">{formatDate(entry.depart_datetime)}</td>
+                <td className="px-3 py-2 w-[5em] break-words">{entry.depart_location}</td>
+                <td className="px-3 py-2 whitespace-nowrap">{formatDate(entry.arrival_datetime)}</td>
+                <td className="px-3 py-2 w-[5em] break-words">{entry.arrival_location}</td>
+                <td className="px-3 py-2 w-[5em] break-words">{entry.hotel_name || ''}</td>
+                <td className="px-3 py-2 w-[5em] break-words">
                   {lodgingLabels[entry.lodging_status] || entry.lodging_status}
                 </td>
-                <td className="px-3 py-2">
+                <td className="px-3 py-2 whitespace-nowrap">
                   {entry.return_depart_datetime ? formatDate(entry.return_depart_datetime) : ''}
                 </td>
-                <td className="px-3 py-2">{entry.return_depart_location || ''}</td>
-                <td className="px-3 py-2">
+                <td className="px-3 py-2 w-[5em] break-words">{entry.return_depart_location || ''}</td>
+                <td className="px-3 py-2 whitespace-nowrap">
                   {entry.return_arrival_datetime ? formatDate(entry.return_arrival_datetime) : ''}
                 </td>
-                <td className="px-3 py-2">{entry.return_arrival_location || ''}</td>
+                <td className="px-3 py-2 w-[5em] break-words">{entry.return_arrival_location || ''}</td>
               </tr>
             );
               })
