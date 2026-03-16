@@ -251,6 +251,8 @@ export default function TravelsClient({
         </div>
       </div>
 
+      <p className="text-xs text-slate-500">可左右滑動查看更多欄位。</p>
+
       <div className="overflow-x-auto rounded-xl border bg-white shadow-sm">
         <table className="min-w-[1200px] border-collapse text-sm">
           <thead className="bg-slate-50 text-left text-xs text-slate-500">
