@@ -149,18 +149,21 @@ export default function SettingsForm({
           </div>
         )}
 
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(event) => {
-            const file = event.target.files?.[0] || null;
-            setBackgroundFile(file);
-            if (file) {
-              setBackgroundPreview(URL.createObjectURL(file));
-            }
-          }}
-          className="block w-full text-sm"
-        />
+        <label className="inline-flex items-center justify-center rounded-md border px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 cursor-pointer">
+          選擇圖片
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(event) => {
+              const file = event.target.files?.[0] || null;
+              setBackgroundFile(file);
+              if (file) {
+                setBackgroundPreview(URL.createObjectURL(file));
+              }
+            }}
+            className="hidden"
+          />
+        </label>
 
         {bgError && <p className="text-sm text-red-600">{bgError}</p>}
         {bgMessage && <p className="text-sm text-emerald-600">{bgMessage}</p>}
