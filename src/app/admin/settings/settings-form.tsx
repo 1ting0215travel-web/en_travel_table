@@ -139,11 +139,13 @@ export default function SettingsForm({
 
         {backgroundPreview && (
           <div className="overflow-hidden rounded-lg border">
-            <img
-              src={backgroundPreview}
-              alt="登入頁底圖"
-              className="h-40 w-full object-cover"
-            />
+            <div className="w-full aspect-[2/1]">
+              <img
+                src={backgroundPreview}
+                alt="登入頁底圖"
+                className="h-full w-full object-cover"
+              />
+            </div>
           </div>
         )}
 
