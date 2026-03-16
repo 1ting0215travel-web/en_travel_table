@@ -327,18 +327,18 @@ export default function TravelsClient({
                 <td className="px-3 py-2">{entry.depart_location}</td>
                 <td className="px-3 py-2">{formatDate(entry.arrival_datetime)}</td>
                 <td className="px-3 py-2">{entry.arrival_location}</td>
-                <td className="px-3 py-2">{entry.hotel_name || '未填寫'}</td>
+                <td className="px-3 py-2">{entry.hotel_name || ''}</td>
                 <td className="px-3 py-2">
                   {lodgingLabels[entry.lodging_status] || entry.lodging_status}
                 </td>
                 <td className="px-3 py-2">
-                  {entry.return_depart_datetime ? formatDate(entry.return_depart_datetime) : '未填寫'}
+                  {entry.return_depart_datetime ? formatDate(entry.return_depart_datetime) : ''}
                 </td>
-                <td className="px-3 py-2">{entry.return_depart_location || '未填寫'}</td>
+                <td className="px-3 py-2">{entry.return_depart_location || ''}</td>
                 <td className="px-3 py-2">
-                  {entry.return_arrival_datetime ? formatDate(entry.return_arrival_datetime) : '未填寫'}
+                  {entry.return_arrival_datetime ? formatDate(entry.return_arrival_datetime) : ''}
                 </td>
-                <td className="px-3 py-2">{entry.return_arrival_location || '未填寫'}</td>
+                <td className="px-3 py-2">{entry.return_arrival_location || ''}</td>
               </tr>
             );
               })

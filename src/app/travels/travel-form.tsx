@@ -69,6 +69,13 @@ export default function TravelForm({
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
+  const showPicker = (event: React.MouseEvent<HTMLInputElement> | React.FocusEvent<HTMLInputElement>) => {
+    const input = event.currentTarget as HTMLInputElement;
+    if (typeof (input as any).showPicker === 'function') {
+      (input as any).showPicker();
+    }
+  };
+
   useEffect(() => {
     if (mode === 'edit' && initialData) {
       setData(initialData);
@@ -118,7 +125,7 @@ export default function TravelForm({
     <form className="space-y-4" onSubmit={handleSubmit}>
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="sm:col-span-2">
-          <p className="text-sm font-semibold text-slate-700">去程</p>
+          <p className="text-sm font-semibold text-blue-600">去程</p>
         </div>
         <div>
           <label className="text-sm font-medium">旅遊代碼</label>
@@ -149,6 +156,8 @@ export default function TravelForm({
             type="datetime-local"
             value={data.depart_datetime}
             onChange={(event) => updateField('depart_datetime', event.target.value)}
+            onClick={showPicker}
+            onFocus={showPicker}
             required
             className="mt-1 w-full rounded-md border px-3 py-2"
           />
@@ -197,6 +206,8 @@ export default function TravelForm({
             type="datetime-local"
             value={data.arrival_datetime}
             onChange={(event) => updateField('arrival_datetime', event.target.value)}
+            onClick={showPicker}
+            onFocus={showPicker}
             required
             className="mt-1 w-full rounded-md border px-3 py-2"
           />
@@ -241,7 +252,7 @@ export default function TravelForm({
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="sm:col-span-2">
-          <p className="text-sm font-semibold text-slate-700">回程</p>
+          <p className="text-sm font-semibold text-blue-600">回程</p>
         </div>
         <div>
           <label className="text-sm font-medium">出發日期時間</label>
@@ -249,6 +260,8 @@ export default function TravelForm({
             type="datetime-local"
             value={data.return_depart_datetime}
             onChange={(event) => updateField('return_depart_datetime', event.target.value)}
+            onClick={showPicker}
+            onFocus={showPicker}
             className="mt-1 w-full rounded-md border px-3 py-2"
           />
         </div>
@@ -295,6 +308,8 @@ export default function TravelForm({
             type="datetime-local"
             value={data.return_arrival_datetime}
             onChange={(event) => updateField('return_arrival_datetime', event.target.value)}
+            onClick={showPicker}
+            onFocus={showPicker}
             className="mt-1 w-full rounded-md border px-3 py-2"
           />
         </div>
