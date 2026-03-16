@@ -37,14 +37,17 @@ const lodgingLabels: Record<string, string> = {
 
 function formatDate(value: string) {
   const date = new Date(value);
-  return new Intl.DateTimeFormat('zh-TW', {
+  const datePart = new Intl.DateTimeFormat('zh-TW', {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
+  }).format(date);
+  const timePart = new Intl.DateTimeFormat('zh-TW', {
     hour: '2-digit',
     minute: '2-digit',
     hour12: false,
   }).format(date);
+  return { datePart, timePart };
 }
 
 function toLocalInput(value: string | null) {
@@ -327,20 +330,60 @@ export default function TravelsClient({
                     <td className="sticky left-[calc(120px+5em)] z-10 w-[5em] bg-white px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)] break-words">
                       {entry.person_name}
                     </td>
-                <td className="px-3 py-2 whitespace-nowrap">{formatDate(entry.depart_datetime)}</td>
+                <td className="px-3 py-2">
+                  {(() => {
+                    const { datePart, timePart } = formatDate(entry.depart_datetime);
+                    return (
+                      <div className="leading-snug">
+                        <div>{datePart}</div>
+                        <div className="text-slate-500">{timePart}</div>
+                      </div>
+                    );
+                  })()}
+                </td>
                 <td className="px-3 py-2 w-[5em] break-words">{entry.depart_location}</td>
-                <td className="px-3 py-2 whitespace-nowrap">{formatDate(entry.arrival_datetime)}</td>
+                <td className="px-3 py-2">
+                  {(() => {
+                    const { datePart, timePart } = formatDate(entry.arrival_datetime);
+                    return (
+                      <div className="leading-snug">
+                        <div>{datePart}</div>
+                        <div className="text-slate-500">{timePart}</div>
+                      </div>
+                    );
+                  })()}
+                </td>
                 <td className="px-3 py-2 w-[5em] break-words">{entry.arrival_location}</td>
                 <td className="px-3 py-2 w-[5em] break-words">{entry.hotel_name || ''}</td>
                 <td className="px-3 py-2 w-[5em] break-words">
                   {lodgingLabels[entry.lodging_status] || entry.lodging_status}
                 </td>
-                <td className="px-3 py-2 whitespace-nowrap">
-                  {entry.return_depart_datetime ? formatDate(entry.return_depart_datetime) : ''}
+                <td className="px-3 py-2">
+                  {entry.return_depart_datetime
+                    ? (() => {
+                        const { datePart, timePart } = formatDate(entry.return_depart_datetime);
+                        return (
+                          <div className="leading-snug">
+                            <div>{datePart}</div>
+                            <div className="text-slate-500">{timePart}</div>
+                          </div>
+                        );
+                      })()
+                    : ''}
                 </td>
                 <td className="px-3 py-2 w-[5em] break-words">{entry.return_depart_location || ''}</td>
-                <td className="px-3 py-2 whitespace-nowrap">
-                  {entry.return_arrival_datetime ? formatDate(entry.return_arrival_datetime) : ''}
+                <td className="px-3 py-2">
+                  {entry.return_arrival_datetime
+                    ? (() => {
+                        const { datePart, timePart } = formatDate(entry.return_arrival_datetime);
+                        return (
+                          <div className="leading-snug">
+                            <div>{datePart}</div>
+                            <div className="text-slate-500">{timePart}</div>
+                          </div>
+                        );
+                      })()
+                    : ''}
                 </td>
                 <td className="px-3 py-2 w-[5em] break-words">{entry.return_arrival_location || ''}</td>
               </tr>
