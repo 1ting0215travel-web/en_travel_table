@@ -14,6 +14,14 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  const editMatch = pathname.match(/^\/travels\/([^/]+)\/edit$/);
+  if (editMatch) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/travels';
+    url.searchParams.set('edit', editMatch[1]);
+    return NextResponse.redirect(url);
+  }
+
   if (publicPaths.some((path) => pathname.startsWith(path))) {
     return NextResponse.next();
   }
