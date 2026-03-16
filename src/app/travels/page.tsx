@@ -69,23 +69,17 @@ export default async function TravelsPage() {
       )
     : { rows: [] as EntryRow[] };
 
-  const entryRows = (entriesResult.rows as unknown as EntryRow[]).map((entry) => ({
+  const entryRows = entriesResult.rows.map((entry) => ({
     ...entry,
-    depart_datetime: entry.depart_datetime instanceof Date
-      ? entry.depart_datetime.toISOString()
-      : entry.depart_datetime,
-    arrival_datetime: entry.arrival_datetime instanceof Date
-      ? entry.arrival_datetime.toISOString()
-      : entry.arrival_datetime,
-    return_depart_datetime:
-      entry.return_depart_datetime instanceof Date
-        ? entry.return_depart_datetime.toISOString()
-        : entry.return_depart_datetime,
-    return_arrival_datetime:
-      entry.return_arrival_datetime instanceof Date
-        ? entry.return_arrival_datetime.toISOString()
-        : entry.return_arrival_datetime,
-  }));
+    depart_datetime: String(entry.depart_datetime),
+    arrival_datetime: String(entry.arrival_datetime),
+    return_depart_datetime: entry.return_depart_datetime
+      ? String(entry.return_depart_datetime)
+      : null,
+    return_arrival_datetime: entry.return_arrival_datetime
+      ? String(entry.return_arrival_datetime)
+      : null,
+  })) as EntryRow[];
   return (
     <div className="space-y-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
