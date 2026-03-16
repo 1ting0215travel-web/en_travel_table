@@ -52,7 +52,7 @@ export default async function LoginPage() {
         }`}
         style={hasBackground ? { backgroundImage: `url(${loginBackground})` } : undefined}
       >
-        <div className="flex min-h-[420px] items-center justify-center px-4 py-10 md:min-h-[520px]">
+        <div className="flex min-h-[calc(100vh-140px)] items-center justify-center px-4 py-10">
           <div
             className={
               hasBackground
