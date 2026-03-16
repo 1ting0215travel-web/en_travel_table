@@ -261,28 +261,43 @@ export default function TravelsClient({
       <p className="text-xs text-slate-500">可左右滑動查看更多欄位。</p>
 
       <div className="overflow-x-auto rounded-xl border bg-white shadow-sm">
-        <table className="min-w-[1200px] border-collapse text-sm">
+        <table className="min-w-[1200px] table-fixed border-collapse text-sm">
+          <colgroup>
+            <col style={{ width: '120px' }} />
+            <col style={{ width: '7em' }} />
+            <col style={{ width: '5em' }} />
+            <col style={{ width: '130px' }} />
+            <col style={{ width: '5em' }} />
+            <col style={{ width: '130px' }} />
+            <col style={{ width: '5em' }} />
+            <col style={{ width: '5em' }} />
+            <col style={{ width: '5em' }} />
+            <col style={{ width: '130px' }} />
+            <col style={{ width: '5em' }} />
+            <col style={{ width: '130px' }} />
+            <col style={{ width: '5em' }} />
+          </colgroup>
           <thead className="bg-slate-50 text-left text-sm text-slate-500">
             <tr>
-              <th className="sticky left-0 z-10 w-[120px] bg-slate-50 px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)]">
+              <th className="sticky left-0 z-30 bg-slate-50 px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)]">
                 操作
               </th>
-              <th className="sticky left-[120px] z-10 w-[7em] bg-slate-50 px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)] break-keep">
+              <th className="sticky left-[120px] z-30 bg-slate-50 px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)] break-keep">
                 旅遊代碼
               </th>
-              <th className="sticky left-[calc(120px+7em)] z-10 w-[5em] bg-slate-50 px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)] break-keep">
+              <th className="sticky left-[calc(120px+7em)] z-30 bg-slate-50 px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)] break-keep">
                 姓名
               </th>
-              <th className="px-3 py-2 min-w-[130px] whitespace-nowrap">去程出發日期</th>
-              <th className="px-3 py-2 w-[5em] break-keep">去程出發地點</th>
-              <th className="px-3 py-2 min-w-[130px] whitespace-nowrap">去程抵達日期</th>
-              <th className="px-3 py-2 w-[5em] break-keep">去程抵達地點</th>
-              <th className="px-3 py-2 w-[5em] break-keep">住宿飯店</th>
-              <th className="px-3 py-2 w-[5em] break-keep">住宿狀態</th>
-              <th className="px-3 py-2 min-w-[130px] whitespace-nowrap">回程出發日期</th>
-              <th className="px-3 py-2 w-[5em] break-keep">回程出發地點</th>
-              <th className="px-3 py-2 min-w-[130px] whitespace-nowrap">回程抵達日期</th>
-              <th className="px-3 py-2 w-[5em] break-keep">回程抵達地點</th>
+              <th className="px-3 py-2 whitespace-nowrap">去程出發日期</th>
+              <th className="px-3 py-2 break-keep">去程出發地點</th>
+              <th className="px-3 py-2 whitespace-nowrap">去程抵達日期</th>
+              <th className="px-3 py-2 break-keep">去程抵達地點</th>
+              <th className="px-3 py-2 break-keep">住宿飯店</th>
+              <th className="px-3 py-2 break-keep">住宿狀態</th>
+              <th className="px-3 py-2 whitespace-nowrap">回程出發日期</th>
+              <th className="px-3 py-2 break-keep">回程出發地點</th>
+              <th className="px-3 py-2 whitespace-nowrap">回程抵達日期</th>
+              <th className="px-3 py-2 break-keep">回程抵達地點</th>
             </tr>
           </thead>
           <tbody>
@@ -297,7 +312,7 @@ export default function TravelsClient({
                 const code = codeMap.get(entry.travel_code_id);
                 return (
                   <tr key={entry.id} className="border-t">
-                    <td className="sticky left-0 z-10 w-[120px] bg-white px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)]">
+                    <td className="sticky left-0 z-20 bg-white px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)]">
                       <div className="flex gap-2">
                         <button
                           type="button"
@@ -317,7 +332,7 @@ export default function TravelsClient({
                         )}
                       </div>
                     </td>
-                    <td className="sticky left-[120px] z-10 w-[7em] bg-white px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)] break-words">
+                    <td className="sticky left-[120px] z-20 bg-white px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)] break-words">
                       <div className="flex items-center gap-2">
                         <span>{code?.code_name || '未知'}</span>
                         {!code?.is_open && role === 'admin' && (
@@ -327,7 +342,7 @@ export default function TravelsClient({
                         )}
                       </div>
                     </td>
-                    <td className="sticky left-[calc(120px+7em)] z-10 w-[5em] bg-white px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)] break-words">
+                    <td className="sticky left-[calc(120px+7em)] z-20 bg-white px-3 py-2 shadow-[2px_0_0_0_rgba(0,0,0,0.05)] break-words">
                       {entry.person_name}
                     </td>
                 <td className="px-3 py-2">
