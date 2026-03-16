@@ -45,22 +45,28 @@ export default async function LoginPage() {
 
   const hasBackground = Boolean(loginBackground);
   return (
-    <div
-      className={`rounded-xl border shadow-sm ${hasBackground ? 'bg-cover bg-center' : 'bg-white'}`}
-      style={hasBackground ? { backgroundImage: `url(${loginBackground})` } : undefined}
-    >
+    <div className="space-y-4">
       <div
-        className={
-          hasBackground
-            ? 'mx-auto max-w-md rounded-xl bg-white/85 p-6 shadow-sm backdrop-blur'
-            : 'mx-auto max-w-md p-6'
-        }
+        className={`rounded-2xl border shadow-sm ${
+          hasBackground ? 'bg-cover bg-center' : 'bg-white'
+        }`}
+        style={hasBackground ? { backgroundImage: `url(${loginBackground})` } : undefined}
       >
-        <h1 className="text-2xl font-semibold">登入</h1>
-        <p className="mt-2 text-sm text-slate-600">
-          管理者或一般登錄者登入後即可新增與編輯資料。
-        </p>
-        <LoginForm />
+        <div className="flex min-h-[420px] items-center justify-center px-4 py-10 md:min-h-[520px]">
+          <div
+            className={
+              hasBackground
+                ? 'w-full max-w-md rounded-xl bg-white/85 p-6 shadow-sm backdrop-blur'
+                : 'w-full max-w-md rounded-xl bg-white p-6 shadow-sm'
+            }
+          >
+            <h1 className="text-2xl font-semibold">登入</h1>
+            <p className="mt-2 text-sm text-slate-600">
+              管理者或一般登錄者登入後即可新增與編輯資料。
+            </p>
+            <LoginForm />
+          </div>
+        </div>
       </div>
     </div>
   );
