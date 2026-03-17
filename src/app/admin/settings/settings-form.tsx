@@ -4,8 +4,10 @@ import { useState } from 'react';
 
 export default function SettingsForm({
   initialLoginBackground,
+  initialSiteTitle,
 }: {
   initialLoginBackground: string | null;
+  initialSiteTitle: string | null;
 }) {
   const [memberPassword, setMemberPassword] = useState('');
   const [currentAdminPassword, setCurrentAdminPassword] = useState('');
@@ -14,10 +16,13 @@ export default function SettingsForm({
   const [backgroundPreview, setBackgroundPreview] = useState<string | null>(
     initialLoginBackground
   );
+  const [siteTitle, setSiteTitle] = useState(initialSiteTitle || '');
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [bgMessage, setBgMessage] = useState<string | null>(null);
   const [bgError, setBgError] = useState<string | null>(null);
+  const [titleMessage, setTitleMessage] = useState<string | null>(null);
+  const [titleError, setTitleError] = useState<string | null>(null);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -81,8 +86,51 @@ export default function SettingsForm({
     setBgMessage('登入頁底圖已更新');
   }
 
+  async function handleTitleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setTitleMessage(null);
+    setTitleError(null);
+
+    const response = await fetch('/api/admin/settings', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ site_title: siteTitle }),
+    });
+
+    if (!response.ok) {
+      const data = await response.json().catch(() => ({}));
+      setTitleError(data?.error || '更新失敗');
+      return;
+    }
+
+    setTitleMessage('標題已更新');
+  }
+
   return (
     <div className="space-y-8">
+      <form className="space-y-4" onSubmit={handleTitleSubmit}>
+        <div>
+          <p className="text-sm font-semibold text-slate-700">頁面左上角標題</p>
+          <p className="mt-1 text-xs text-slate-500">
+            修改後按下按鈕才會更新。
+          </p>
+        </div>
+        <input
+          value={siteTitle}
+          onChange={(event) => setSiteTitle(event.target.value)}
+          placeholder="見了還想見-en"
+          className="w-full rounded-md border px-3 py-2"
+        />
+        {titleError && <p className="text-sm text-red-600">{titleError}</p>}
+        {titleMessage && <p className="text-sm text-emerald-600">{titleMessage}</p>}
+        <button
+          type="submit"
+          className="rounded-md bg-slate-900 px-4 py-2 text-white hover:bg-slate-800"
+        >
+          更新標題
+        </button>
+      </form>
+
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div>
           <label className="text-sm font-medium">一般登錄者共用密碼</label>

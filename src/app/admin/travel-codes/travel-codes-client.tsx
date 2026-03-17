@@ -77,7 +77,7 @@ export default function TravelCodesClient({ initialCodes }: { initialCodes: Trav
         <input
           value={newCode}
           onChange={(event) => setNewCode(event.target.value)}
-          placeholder="新增旅遊代碼"
+          placeholder="新增場次代碼"
           className="flex-1 rounded-md border px-3 py-2"
         />
         <button

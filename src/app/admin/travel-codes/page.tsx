@@ -23,8 +23,8 @@ export default async function TravelCodesPage() {
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-semibold">旅遊代碼管理</h1>
-      <p className="mt-1 text-sm text-slate-600">新增、編輯或刪除旅遊代碼。</p>
+      <h1 className="text-2xl font-semibold">場次代碼管理</h1>
+      <p className="mt-1 text-sm text-slate-600">新增、編輯或刪除場次代碼。</p>
       </div>
       <TravelCodesClient initialCodes={result.rows} />
     </div>

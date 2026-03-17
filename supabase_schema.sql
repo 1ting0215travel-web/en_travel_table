@@ -31,6 +31,7 @@ create table if not exists app_settings (
   id int primary key default 1,
   member_login_password_hash text not null,
   login_background text,
+  site_title text,
   updated_at timestamptz not null default now()
 );
 

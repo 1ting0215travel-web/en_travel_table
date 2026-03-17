@@ -56,7 +56,7 @@ export default async function LoginPage() {
           <div
             className={
               hasBackground
-                ? 'w-full max-w-md rounded-xl bg-white/85 p-6 shadow-sm backdrop-blur'
+                ? 'w-full max-w-md rounded-xl bg-white/50 p-6 shadow-sm'
                 : 'w-full max-w-md rounded-xl bg-white p-6 shadow-sm'
             }
           >

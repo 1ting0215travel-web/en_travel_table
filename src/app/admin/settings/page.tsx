@@ -13,8 +13,8 @@ export default async function SettingsPage() {
     );
   }
 
-  const settingsResult = await query<{ login_background: string | null }>(
-    'select login_background from app_settings where id = 1'
+  const settingsResult = await query<{ login_background: string | null; site_title: string | null }>(
+    'select login_background, site_title from app_settings where id = 1'
   );
 
   return (
@@ -22,7 +22,10 @@ export default async function SettingsPage() {
       <h1 className="text-2xl font-semibold">帳號與密碼設定</h1>
       <p className="mt-2 text-sm text-slate-600">更新一般登錄者共用密碼或管理者密碼。</p>
       <div className="mt-6">
-        <SettingsForm initialLoginBackground={settingsResult.rows[0]?.login_background || null} />
+        <SettingsForm
+          initialLoginBackground={settingsResult.rows[0]?.login_background || null}
+          initialSiteTitle={settingsResult.rows[0]?.site_title || null}
+        />
       </div>
     </div>
   );

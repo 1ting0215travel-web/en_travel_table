@@ -128,7 +128,7 @@ export default function TravelForm({
           <p className="text-sm font-semibold text-blue-600">去程</p>
         </div>
         <div>
-          <label className="text-sm font-medium">旅遊代碼</label>
+          <label className="text-sm font-medium">場次代碼</label>
           <select
             value={data.travel_code_id}
             onChange={(event) => updateField('travel_code_id', event.target.value)}

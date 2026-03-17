@@ -23,7 +23,7 @@ export default async function NewTravelPage() {
     return (
       <div className="rounded-xl border bg-white p-6 shadow-sm">
         <h1 className="text-xl font-semibold">目前沒有可用代碼</h1>
-        <p className="mt-2 text-sm text-slate-600">請先由管理者建立旅遊代碼。</p>
+        <p className="mt-2 text-sm text-slate-600">請先由管理者建立場次代碼。</p>
       </div>
     );
   }

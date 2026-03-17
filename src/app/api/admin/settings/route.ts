@@ -17,8 +17,9 @@ export async function PUT(request: Request) {
   const memberPassword = String(body.member_password || '').trim();
   const currentAdminPassword = String(body.current_admin_password || '');
   const newAdminPassword = String(body.new_admin_password || '');
+  const siteTitle = String(body.site_title || '').trim();
 
-  if (!memberPassword && !newAdminPassword) {
+  if (!memberPassword && !newAdminPassword && !siteTitle) {
     return NextResponse.json({ error: '沒有需要更新的欄位' }, { status: 400 });
   }
 
@@ -29,6 +30,10 @@ export async function PUT(request: Request) {
         await client.query('update app_settings set member_login_password_hash = $1 where id = 1', [
           memberHash,
         ]);
+      }
+
+      if (siteTitle) {
+        await client.query('update app_settings set site_title = $1 where id = 1', [siteTitle]);
       }
 
       if (newAdminPassword) {
