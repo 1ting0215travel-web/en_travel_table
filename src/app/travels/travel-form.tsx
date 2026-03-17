@@ -142,7 +142,9 @@ export default function TravelForm({
           </select>
         </div>
         <div>
-          <label className="text-sm font-medium">姓名</label>
+          <label className="text-sm font-medium">
+            姓名 <span className="text-xs text-slate-400">(社群內名字非真名)</span>
+          </label>
           <input
             value={data.person_name}
             onChange={(event) => updateField('person_name', event.target.value)}

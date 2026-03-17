@@ -13,6 +13,8 @@ export default function TravelCodesClient({ initialCodes }: { initialCodes: Trav
   const [codes, setCodes] = useState<TravelCode[]>(initialCodes);
   const [newCode, setNewCode] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [pendingDelete, setPendingDelete] = useState<TravelCode | null>(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   async function createCode() {
     setError(null);
@@ -56,6 +58,7 @@ export default function TravelCodesClient({ initialCodes }: { initialCodes: Trav
 
   async function deleteCode(id: string) {
     setError(null);
+    setDeleteLoading(true);
     const response = await fetch('/api/admin/travel-codes', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
@@ -65,10 +68,34 @@ export default function TravelCodesClient({ initialCodes }: { initialCodes: Trav
     if (!response.ok) {
       const data = await response.json().catch(() => ({}));
       setError(data?.error || '刪除失敗');
+      setDeleteLoading(false);
       return;
     }
 
     setCodes(codes.filter((item) => item.id !== id));
+    setDeleteLoading(false);
+  }
+
+  async function requestDelete(code: TravelCode) {
+    setError(null);
+    const response = await fetch('/api/admin/travel-codes/check', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: code.id }),
+    });
+
+    if (!response.ok) {
+      setError('檢查失敗');
+      return;
+    }
+
+    const data = await response.json().catch(() => ({}));
+    if ((data?.count ?? 0) > 0) {
+      setPendingDelete(code);
+      return;
+    }
+
+    await deleteCode(code.id);
   }
 
   return (
@@ -107,11 +134,17 @@ export default function TravelCodesClient({ initialCodes }: { initialCodes: Trav
                   )
                 )
               }
-              onBlur={(event) => updateCode(code, { code_name: event.target.value })}
             />
             <button
               type="button"
-              onClick={() => deleteCode(code.id)}
+              onClick={() => updateCode(code, { code_name: code.code_name })}
+              className="rounded-md border px-3 py-1 text-sm text-slate-700 hover:bg-slate-50"
+            >
+              修改儲存
+            </button>
+            <button
+              type="button"
+              onClick={() => requestDelete(code)}
               className="rounded-md border px-3 py-1 text-sm text-slate-700 hover:bg-slate-50"
             >
               刪除
@@ -119,6 +152,41 @@ export default function TravelCodesClient({ initialCodes }: { initialCodes: Trav
           </div>
         ))}
       </div>
+
+      {pendingDelete && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
+          <div className="w-full max-w-sm rounded-xl bg-white p-6 shadow-lg">
+            <h3 className="text-lg font-semibold">確認刪除</h3>
+            <p className="mt-2 text-sm text-slate-600">
+              此代碼已有資料，確認是否要刪除？
+            </p>
+            <div className="mt-4 flex gap-3">
+              <button
+                type="button"
+                onClick={() => {
+                  setPendingDelete(null);
+                }}
+                className="flex-1 rounded-md border px-3 py-2 text-sm text-slate-700 hover:bg-slate-50"
+                disabled={deleteLoading}
+              >
+                取消
+              </button>
+              <button
+                type="button"
+                onClick={async () => {
+                  const id = pendingDelete.id;
+                  setPendingDelete(null);
+                  await deleteCode(id);
+                }}
+                className="flex-1 rounded-md bg-slate-900 px-3 py-2 text-sm text-white hover:bg-slate-800"
+                disabled={deleteLoading}
+              >
+                確定要刪除
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

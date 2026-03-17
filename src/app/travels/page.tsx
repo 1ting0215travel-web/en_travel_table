@@ -90,9 +90,9 @@ export default async function TravelsPage() {
         </div>
         <Link
           href="/travels/new"
-          className="rounded-md bg-slate-900 px-4 py-2 text-white hover:bg-slate-800"
+          className="inline-flex items-center gap-1 rounded-md bg-emerald-200 px-4 py-2 text-emerald-900 hover:bg-emerald-300"
         >
-          新增資料
+          ＋ 新增資料
         </Link>
       </div>
 
