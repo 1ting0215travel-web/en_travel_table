@@ -10,7 +10,7 @@ const notoSans = Noto_Sans_TC({
   variable: '--font-sans',
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
