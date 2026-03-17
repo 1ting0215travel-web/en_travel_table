@@ -266,7 +266,7 @@ export default function TravelsClient({
           style={{
             '--col-op': '120px',
             '--col-code': '7em',
-            '--col-name': '150px',
+            '--col-name': '130px',
             '--col-date': '130px',
             '--col-short': '5em',
           } as React.CSSProperties}
@@ -297,16 +297,16 @@ export default function TravelsClient({
               <th className="box-border bg-slate-50 px-3 py-2 break-keep">
                 姓名
               </th>
-              <th className="px-3 py-2 whitespace-nowrap">去程出發日期</th>
-              <th className="px-3 py-2 break-keep">去程出發地點</th>
-              <th className="px-3 py-2 whitespace-nowrap">去程抵達日期</th>
-              <th className="px-3 py-2 break-keep">去程抵達地點</th>
+              <th className="px-3 py-2 whitespace-nowrap">去程出發時間</th>
+              <th className="px-3 py-2 break-keep">去程出發地</th>
+              <th className="px-3 py-2 whitespace-nowrap">去程抵達時間</th>
+              <th className="px-3 py-2 break-keep">去程抵達地</th>
               <th className="px-3 py-2 break-keep">住宿飯店</th>
               <th className="px-3 py-2 break-keep">住宿狀態</th>
-              <th className="px-3 py-2 whitespace-nowrap">回程出發日期</th>
-              <th className="px-3 py-2 break-keep">回程出發地點</th>
-              <th className="px-3 py-2 whitespace-nowrap">回程抵達日期</th>
-              <th className="px-3 py-2 break-keep">回程抵達地點</th>
+              <th className="px-3 py-2 whitespace-nowrap">回程出發時間</th>
+              <th className="px-3 py-2 break-keep">回程出發地</th>
+              <th className="px-3 py-2 whitespace-nowrap">回程抵達時間</th>
+              <th className="px-3 py-2 break-keep">回程抵達地</th>
             </tr>
           </thead>
           <tbody>
@@ -430,7 +430,7 @@ export default function TravelsClient({
             <div className="mt-4">
               {editLoading && (
                 <div className="rounded-md border bg-slate-50 p-4 text-sm text-slate-600">
-                  載入中...
+                  請稍候，資料載入中...
                 </div>
               )}
               {editError && (

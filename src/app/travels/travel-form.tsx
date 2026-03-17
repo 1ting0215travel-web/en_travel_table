@@ -125,7 +125,7 @@ export default function TravelForm({
     <form className="space-y-4" onSubmit={handleSubmit}>
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="sm:col-span-2">
-          <p className="text-sm font-semibold text-blue-600">去程</p>
+          <p className="text-sm font-semibold text-blue-700">去程</p>
         </div>
         <div>
           <label className="text-sm font-medium">場次代碼</label>
@@ -153,7 +153,7 @@ export default function TravelForm({
           />
         </div>
         <div>
-          <label className="text-sm font-medium">出發日期時間</label>
+          <label className="text-sm font-medium">出發時間</label>
           <input
             type="datetime-local"
             value={data.depart_datetime}
@@ -203,7 +203,7 @@ export default function TravelForm({
           )}
         </div>
         <div>
-          <label className="text-sm font-medium">抵達日期時間</label>
+          <label className="text-sm font-medium">抵達時間</label>
           <input
             type="datetime-local"
             value={data.arrival_datetime}
@@ -254,10 +254,10 @@ export default function TravelForm({
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="sm:col-span-2">
-          <p className="text-sm font-semibold text-blue-600">回程</p>
+          <p className="text-sm font-semibold text-blue-700">回程</p>
         </div>
         <div>
-          <label className="text-sm font-medium">出發日期時間</label>
+          <label className="text-sm font-medium">出發時間</label>
           <input
             type="datetime-local"
             value={data.return_depart_datetime}
@@ -305,7 +305,7 @@ export default function TravelForm({
           </div>
         )}
         <div>
-          <label className="text-sm font-medium">抵達日期時間</label>
+          <label className="text-sm font-medium">抵達時間</label>
           <input
             type="datetime-local"
             value={data.return_arrival_datetime}
