@@ -30,7 +30,7 @@ export default async function NewTravelPage() {
 
   return (
     <div className="rounded-xl border bg-white p-6 shadow-sm">
-      <h1 className="text-2xl font-semibold">新增旅遊資料</h1>
+      <h1 className="text-2xl font-semibold">新增資料</h1>
       <div className="mt-6">
         <TravelForm
           mode="create"

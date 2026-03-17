@@ -125,7 +125,7 @@ export default function TravelForm({
     <form className="space-y-4" onSubmit={handleSubmit}>
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="sm:col-span-2">
-          <p className="text-sm font-semibold text-blue-700">去程</p>
+          <p className="text-sm font-semibold text-blue-800">去程</p>
         </div>
         <div>
           <label className="text-sm font-medium">場次代碼</label>
@@ -216,7 +216,7 @@ export default function TravelForm({
         </div>
         <div>
           <label className="text-sm font-medium">
-            抵達地點 <span className="text-xs text-slate-400">(ex.桃園機場)</span>
+            抵達地點 <span className="text-xs text-slate-400">(ex.上海虹橋機場)</span>
           </label>
           <input
             value={data.arrival_location}
@@ -254,7 +254,7 @@ export default function TravelForm({
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="sm:col-span-2">
-          <p className="text-sm font-semibold text-blue-700">回程</p>
+          <p className="text-sm font-semibold text-blue-800">回程</p>
         </div>
         <div>
           <label className="text-sm font-medium">出發時間</label>
@@ -269,7 +269,7 @@ export default function TravelForm({
         </div>
         <div>
           <label className="text-sm font-medium">
-            出發地點 <span className="text-xs text-slate-400">(ex.桃園機場)</span>
+            出發地點 <span className="text-xs text-slate-400">(ex.上海虹橋機場)</span>
           </label>
           <input
             value={data.return_depart_location}
