@@ -13,11 +13,13 @@ export default function TravelCodesClient({ initialCodes }: { initialCodes: Trav
   const [codes, setCodes] = useState<TravelCode[]>(initialCodes);
   const [newCode, setNewCode] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
   const [pendingDelete, setPendingDelete] = useState<TravelCode | null>(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
   async function createCode() {
     setError(null);
+    setMessage(null);
     const response = await fetch('/api/admin/travel-codes', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -37,6 +39,7 @@ export default function TravelCodesClient({ initialCodes }: { initialCodes: Trav
 
   async function updateCode(code: TravelCode, patch: Partial<TravelCode>) {
     setError(null);
+    setMessage(null);
     const response = await fetch('/api/admin/travel-codes', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -54,10 +57,12 @@ export default function TravelCodesClient({ initialCodes }: { initialCodes: Trav
 
     const data = await response.json();
     setCodes(codes.map((item) => (item.id === code.id ? data.data : item)));
+    setMessage('代碼已更新');
   }
 
   async function deleteCode(id: string) {
     setError(null);
+    setMessage(null);
     setDeleteLoading(true);
     const response = await fetch('/api/admin/travel-codes', {
       method: 'DELETE',
@@ -78,6 +83,7 @@ export default function TravelCodesClient({ initialCodes }: { initialCodes: Trav
 
   async function requestDelete(code: TravelCode) {
     setError(null);
+    setMessage(null);
     const response = await fetch('/api/admin/travel-codes/check', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -117,6 +123,7 @@ export default function TravelCodesClient({ initialCodes }: { initialCodes: Trav
       </div>
 
       {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
+      {message && <p className="mt-3 text-sm text-emerald-600">{message}</p>}
 
       <div className="mt-6 space-y-3">
         {codes.length === 0 && (

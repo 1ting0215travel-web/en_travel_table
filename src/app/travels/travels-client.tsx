@@ -266,7 +266,7 @@ export default function TravelsClient({
           style={{
             '--col-op': '120px',
             '--col-code': '7em',
-            '--col-name': '5em',
+            '--col-name': '130px',
             '--col-date': '130px',
             '--col-short': '5em',
           } as React.CSSProperties}

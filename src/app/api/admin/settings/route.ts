@@ -19,9 +19,9 @@ export async function PUT(request: Request) {
   const newAdminPassword = String(body.new_admin_password || '');
   const siteTitle = String(body.site_title || '').trim();
 
-  if (!memberPassword && !newAdminPassword && !siteTitle) {
-    return NextResponse.json({ error: '沒有需要更新的欄位' }, { status: 400 });
-  }
+    if (!memberPassword && !newAdminPassword && !siteTitle) {
+      return NextResponse.json({ error: '沒有需要更新的欄位' }, { status: 400 });
+    }
 
   try {
     await withTransaction(async (client) => {
