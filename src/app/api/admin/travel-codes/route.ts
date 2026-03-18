@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
-import { query } from '@/lib/db';
+import { query, withTransaction } from '@/lib/db';
 
 async function requireAdmin() {
   const session = await getSession();
@@ -69,6 +69,9 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: '請提供代碼 ID' }, { status: 400 });
   }
 
-  await query('update travel_codes set is_destroyed = true where id = $1', [id]);
+  await withTransaction(async (client) => {
+    await client.query('delete from travel_entries where travel_code_id = $1', [id]);
+    await client.query('delete from travel_codes where id = $1', [id]);
+  });
   return NextResponse.json({ ok: true });
 }
