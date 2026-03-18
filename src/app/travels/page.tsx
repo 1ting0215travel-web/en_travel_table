@@ -63,7 +63,7 @@ export default async function TravelsPage() {
                 return_depart_datetime, return_depart_location, return_arrival_datetime, return_arrival_location
          from travel_entries
          where is_destroyed = false and travel_code_id = any($1)
-         order by created_at desc`,
+         order by depart_datetime asc, created_at asc`,
         [codeIds]
       )
     : { rows: [] as EntryRow[] };
