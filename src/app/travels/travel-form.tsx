@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Flatpickr from 'react-flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
 import { useRouter } from 'next/navigation';
 
 interface TravelCode {
@@ -69,16 +71,8 @@ export default function TravelForm({
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const splitDateTime = (value: string) => {
-    if (!value) return { date: '', time: '' };
-    const [date, time] = value.split('T');
-    return { date: date || '', time: time || '' };
-  };
-
-  const mergeDateTime = (date: string, time: string) => {
-    if (!date || !time) return '';
-    return `${date}T${time}`;
-  };
+  const toInputValue = (value: string) => value.replace('T', ' ');
+  const toStoreValue = (value: string) => value.replace(' ', 'T');
 
   const showPicker = (event: React.MouseEvent<HTMLInputElement> | React.FocusEvent<HTMLInputElement>) => {
     const input = event.currentTarget as HTMLInputElement;
@@ -165,34 +159,19 @@ export default function TravelForm({
         </div>
         <div>
           <label className="text-sm font-medium">出發時間</label>
-          <div className="mt-1 grid gap-2 sm:grid-cols-[1fr_120px]">
-            <input
-              type="date"
-              value={splitDateTime(data.depart_datetime).date}
-              onChange={(event) =>
-                updateField(
-                  'depart_datetime',
-                  mergeDateTime(event.target.value, splitDateTime(data.depart_datetime).time)
-                )
-              }
-              onClick={showPicker}
-              onFocus={showPicker}
-              required
-              className="w-full rounded-md border px-3 py-2"
-            />
-            <input
-              type="time"
-              value={splitDateTime(data.depart_datetime).time}
-              onChange={(event) =>
-                updateField(
-                  'depart_datetime',
-                  mergeDateTime(splitDateTime(data.depart_datetime).date, event.target.value)
-                )
-              }
-              onClick={showPicker}
-              onFocus={showPicker}
-              required
-              step={60}
+          <div className="mt-1">
+            <Flatpickr
+              value={data.depart_datetime ? toInputValue(data.depart_datetime) : ''}
+              options={{
+                enableTime: true,
+                time_24hr: true,
+                dateFormat: 'Y-m-d H:i',
+                allowInput: true,
+              }}
+              onChange={(_, dateStr) => {
+                updateField('depart_datetime', dateStr ? toStoreValue(dateStr) : '');
+              }}
+              placeholder="YYYY-MM-DD HH:mm"
               className="w-full rounded-md border px-3 py-2"
             />
           </div>
@@ -237,34 +216,19 @@ export default function TravelForm({
         </div>
         <div>
           <label className="text-sm font-medium">抵達時間</label>
-          <div className="mt-1 grid gap-2 sm:grid-cols-[1fr_120px]">
-            <input
-              type="date"
-              value={splitDateTime(data.arrival_datetime).date}
-              onChange={(event) =>
-                updateField(
-                  'arrival_datetime',
-                  mergeDateTime(event.target.value, splitDateTime(data.arrival_datetime).time)
-                )
-              }
-              onClick={showPicker}
-              onFocus={showPicker}
-              required
-              className="w-full rounded-md border px-3 py-2"
-            />
-            <input
-              type="time"
-              value={splitDateTime(data.arrival_datetime).time}
-              onChange={(event) =>
-                updateField(
-                  'arrival_datetime',
-                  mergeDateTime(splitDateTime(data.arrival_datetime).date, event.target.value)
-                )
-              }
-              onClick={showPicker}
-              onFocus={showPicker}
-              required
-              step={60}
+          <div className="mt-1">
+            <Flatpickr
+              value={data.arrival_datetime ? toInputValue(data.arrival_datetime) : ''}
+              options={{
+                enableTime: true,
+                time_24hr: true,
+                dateFormat: 'Y-m-d H:i',
+                allowInput: true,
+              }}
+              onChange={(_, dateStr) => {
+                updateField('arrival_datetime', dateStr ? toStoreValue(dateStr) : '');
+              }}
+              placeholder="YYYY-MM-DD HH:mm"
               className="w-full rounded-md border px-3 py-2"
             />
           </div>
@@ -313,32 +277,19 @@ export default function TravelForm({
         </div>
         <div>
           <label className="text-sm font-medium">出發時間</label>
-          <div className="mt-1 grid gap-2 sm:grid-cols-[1fr_120px]">
-            <input
-              type="date"
-              value={splitDateTime(data.return_depart_datetime).date}
-              onChange={(event) =>
-                updateField(
-                  'return_depart_datetime',
-                  mergeDateTime(event.target.value, splitDateTime(data.return_depart_datetime).time)
-                )
-              }
-              onClick={showPicker}
-              onFocus={showPicker}
-              className="w-full rounded-md border px-3 py-2"
-            />
-            <input
-              type="time"
-              value={splitDateTime(data.return_depart_datetime).time}
-              onChange={(event) =>
-                updateField(
-                  'return_depart_datetime',
-                  mergeDateTime(splitDateTime(data.return_depart_datetime).date, event.target.value)
-                )
-              }
-              onClick={showPicker}
-              onFocus={showPicker}
-              step={60}
+          <div className="mt-1">
+            <Flatpickr
+              value={data.return_depart_datetime ? toInputValue(data.return_depart_datetime) : ''}
+              options={{
+                enableTime: true,
+                time_24hr: true,
+                dateFormat: 'Y-m-d H:i',
+                allowInput: true,
+              }}
+              onChange={(_, dateStr) => {
+                updateField('return_depart_datetime', dateStr ? toStoreValue(dateStr) : '');
+              }}
+              placeholder="YYYY-MM-DD HH:mm"
               className="w-full rounded-md border px-3 py-2"
             />
           </div>
@@ -382,32 +333,19 @@ export default function TravelForm({
         )}
         <div>
           <label className="text-sm font-medium">抵達時間</label>
-          <div className="mt-1 grid gap-2 sm:grid-cols-[1fr_120px]">
-            <input
-              type="date"
-              value={splitDateTime(data.return_arrival_datetime).date}
-              onChange={(event) =>
-                updateField(
-                  'return_arrival_datetime',
-                  mergeDateTime(event.target.value, splitDateTime(data.return_arrival_datetime).time)
-                )
-              }
-              onClick={showPicker}
-              onFocus={showPicker}
-              className="w-full rounded-md border px-3 py-2"
-            />
-            <input
-              type="time"
-              value={splitDateTime(data.return_arrival_datetime).time}
-              onChange={(event) =>
-                updateField(
-                  'return_arrival_datetime',
-                  mergeDateTime(splitDateTime(data.return_arrival_datetime).date, event.target.value)
-                )
-              }
-              onClick={showPicker}
-              onFocus={showPicker}
-              step={60}
+          <div className="mt-1">
+            <Flatpickr
+              value={data.return_arrival_datetime ? toInputValue(data.return_arrival_datetime) : ''}
+              options={{
+                enableTime: true,
+                time_24hr: true,
+                dateFormat: 'Y-m-d H:i',
+                allowInput: true,
+              }}
+              onChange={(_, dateStr) => {
+                updateField('return_arrival_datetime', dateStr ? toStoreValue(dateStr) : '');
+              }}
+              placeholder="YYYY-MM-DD HH:mm"
               className="w-full rounded-md border px-3 py-2"
             />
           </div>
