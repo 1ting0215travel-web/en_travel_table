@@ -9,9 +9,13 @@ async function requireSession() {
 }
 
 function normalizeDate(value: string) {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return null;
-  return date.toISOString();
+  if (!value) return null;
+  if (value.includes('Z') || /[+-]\d{2}:\d{2}$/.test(value)) {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return null;
+    return value;
+  }
+  return `${value}:00+08:00`;
 }
 
 export async function POST(request: Request) {
