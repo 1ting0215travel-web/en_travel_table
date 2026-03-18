@@ -167,6 +167,8 @@ export default function TravelForm({
                 time_24hr: true,
                 dateFormat: 'Y-m-d H:i',
                 allowInput: true,
+                closeOnSelect: false,
+                disableMobile: true,
               }}
               onChange={(_, dateStr) => {
                 updateField('depart_datetime', dateStr ? toStoreValue(dateStr) : '');
@@ -224,6 +226,8 @@ export default function TravelForm({
                 time_24hr: true,
                 dateFormat: 'Y-m-d H:i',
                 allowInput: true,
+                closeOnSelect: false,
+                disableMobile: true,
               }}
               onChange={(_, dateStr) => {
                 updateField('arrival_datetime', dateStr ? toStoreValue(dateStr) : '');
@@ -285,6 +289,8 @@ export default function TravelForm({
                 time_24hr: true,
                 dateFormat: 'Y-m-d H:i',
                 allowInput: true,
+                closeOnSelect: false,
+                disableMobile: true,
               }}
               onChange={(_, dateStr) => {
                 updateField('return_depart_datetime', dateStr ? toStoreValue(dateStr) : '');
@@ -341,6 +347,8 @@ export default function TravelForm({
                 time_24hr: true,
                 dateFormat: 'Y-m-d H:i',
                 allowInput: true,
+                closeOnSelect: false,
+                disableMobile: true,
               }}
               onChange={(_, dateStr) => {
                 updateField('return_arrival_datetime', dateStr ? toStoreValue(dateStr) : '');
