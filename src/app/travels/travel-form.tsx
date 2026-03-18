@@ -125,7 +125,7 @@ export default function TravelForm({
     <form className="space-y-4" onSubmit={handleSubmit}>
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="sm:col-span-2">
-          <p className="text-sm font-semibold text-blue-800">去程</p>
+          <p className="text-base font-semibold text-blue-800">去程</p>
         </div>
         <div>
           <label className="text-sm font-medium">場次代碼</label>
@@ -254,7 +254,7 @@ export default function TravelForm({
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="sm:col-span-2">
-          <p className="text-sm font-semibold text-blue-800">回程</p>
+          <p className="text-base font-semibold text-blue-800">回程</p>
         </div>
         <div>
           <label className="text-sm font-medium">出發時間</label>
