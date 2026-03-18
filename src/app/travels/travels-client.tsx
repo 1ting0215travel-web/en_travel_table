@@ -258,9 +258,15 @@ export default function TravelsClient({
         </div>
       </div>
 
-      <p className="text-xs text-slate-500">可左右滑動查看更多欄位。</p>
+      <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500">
+        <span>可左右滑動查看更多欄位。</span>
+        <span>筆數：{filteredItems.length}</span>
+      </div>
 
       <div className="overflow-x-auto rounded-xl border bg-white shadow-sm">
+        <div className="flex items-center justify-end px-3 py-2 text-xs text-slate-500">
+          筆數：{filteredItems.length}
+        </div>
         <table
           className="min-w-[1200px] table-fixed border-collapse text-sm"
           style={{
