@@ -156,6 +156,7 @@ export default function TravelForm({
           <label className="text-sm font-medium">出發時間</label>
           <input
             type="datetime-local"
+            lang="en-GB"
             value={data.depart_datetime}
             onChange={(event) => updateField('depart_datetime', event.target.value)}
             onClick={showPicker}
@@ -206,6 +207,7 @@ export default function TravelForm({
           <label className="text-sm font-medium">抵達時間</label>
           <input
             type="datetime-local"
+            lang="en-GB"
             value={data.arrival_datetime}
             onChange={(event) => updateField('arrival_datetime', event.target.value)}
             onClick={showPicker}
@@ -260,6 +262,7 @@ export default function TravelForm({
           <label className="text-sm font-medium">出發時間</label>
           <input
             type="datetime-local"
+            lang="en-GB"
             value={data.return_depart_datetime}
             onChange={(event) => updateField('return_depart_datetime', event.target.value)}
             onClick={showPicker}
@@ -308,6 +311,7 @@ export default function TravelForm({
           <label className="text-sm font-medium">抵達時間</label>
           <input
             type="datetime-local"
+            lang="en-GB"
             value={data.return_arrival_datetime}
             onChange={(event) => updateField('return_arrival_datetime', event.target.value)}
             onClick={showPicker}
