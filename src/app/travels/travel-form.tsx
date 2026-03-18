@@ -69,6 +69,17 @@ export default function TravelForm({
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
+  const splitDateTime = (value: string) => {
+    if (!value) return { date: '', time: '' };
+    const [date, time] = value.split('T');
+    return { date: date || '', time: time || '' };
+  };
+
+  const mergeDateTime = (date: string, time: string) => {
+    if (!date || !time) return '';
+    return `${date}T${time}`;
+  };
+
   const showPicker = (event: React.MouseEvent<HTMLInputElement> | React.FocusEvent<HTMLInputElement>) => {
     const input = event.currentTarget as HTMLInputElement;
     if (typeof (input as any).showPicker === 'function') {
@@ -154,16 +165,37 @@ export default function TravelForm({
         </div>
         <div>
           <label className="text-sm font-medium">出發時間</label>
-          <input
-            type="datetime-local"
-            lang="en-GB"
-            value={data.depart_datetime}
-            onChange={(event) => updateField('depart_datetime', event.target.value)}
-            onClick={showPicker}
-            onFocus={showPicker}
-            required
-            className="mt-1 w-full rounded-md border px-3 py-2"
-          />
+          <div className="mt-1 grid gap-2 sm:grid-cols-[1fr_120px]">
+            <input
+              type="date"
+              value={splitDateTime(data.depart_datetime).date}
+              onChange={(event) =>
+                updateField(
+                  'depart_datetime',
+                  mergeDateTime(event.target.value, splitDateTime(data.depart_datetime).time)
+                )
+              }
+              onClick={showPicker}
+              onFocus={showPicker}
+              required
+              className="w-full rounded-md border px-3 py-2"
+            />
+            <input
+              type="time"
+              value={splitDateTime(data.depart_datetime).time}
+              onChange={(event) =>
+                updateField(
+                  'depart_datetime',
+                  mergeDateTime(splitDateTime(data.depart_datetime).date, event.target.value)
+                )
+              }
+              onClick={showPicker}
+              onFocus={showPicker}
+              required
+              step={60}
+              className="w-full rounded-md border px-3 py-2"
+            />
+          </div>
         </div>
         <div>
           <label className="text-sm font-medium">
@@ -205,16 +237,37 @@ export default function TravelForm({
         </div>
         <div>
           <label className="text-sm font-medium">抵達時間</label>
-          <input
-            type="datetime-local"
-            lang="en-GB"
-            value={data.arrival_datetime}
-            onChange={(event) => updateField('arrival_datetime', event.target.value)}
-            onClick={showPicker}
-            onFocus={showPicker}
-            required
-            className="mt-1 w-full rounded-md border px-3 py-2"
-          />
+          <div className="mt-1 grid gap-2 sm:grid-cols-[1fr_120px]">
+            <input
+              type="date"
+              value={splitDateTime(data.arrival_datetime).date}
+              onChange={(event) =>
+                updateField(
+                  'arrival_datetime',
+                  mergeDateTime(event.target.value, splitDateTime(data.arrival_datetime).time)
+                )
+              }
+              onClick={showPicker}
+              onFocus={showPicker}
+              required
+              className="w-full rounded-md border px-3 py-2"
+            />
+            <input
+              type="time"
+              value={splitDateTime(data.arrival_datetime).time}
+              onChange={(event) =>
+                updateField(
+                  'arrival_datetime',
+                  mergeDateTime(splitDateTime(data.arrival_datetime).date, event.target.value)
+                )
+              }
+              onClick={showPicker}
+              onFocus={showPicker}
+              required
+              step={60}
+              className="w-full rounded-md border px-3 py-2"
+            />
+          </div>
         </div>
         <div>
           <label className="text-sm font-medium">
@@ -260,15 +313,35 @@ export default function TravelForm({
         </div>
         <div>
           <label className="text-sm font-medium">出發時間</label>
-          <input
-            type="datetime-local"
-            lang="en-GB"
-            value={data.return_depart_datetime}
-            onChange={(event) => updateField('return_depart_datetime', event.target.value)}
-            onClick={showPicker}
-            onFocus={showPicker}
-            className="mt-1 w-full rounded-md border px-3 py-2"
-          />
+          <div className="mt-1 grid gap-2 sm:grid-cols-[1fr_120px]">
+            <input
+              type="date"
+              value={splitDateTime(data.return_depart_datetime).date}
+              onChange={(event) =>
+                updateField(
+                  'return_depart_datetime',
+                  mergeDateTime(event.target.value, splitDateTime(data.return_depart_datetime).time)
+                )
+              }
+              onClick={showPicker}
+              onFocus={showPicker}
+              className="w-full rounded-md border px-3 py-2"
+            />
+            <input
+              type="time"
+              value={splitDateTime(data.return_depart_datetime).time}
+              onChange={(event) =>
+                updateField(
+                  'return_depart_datetime',
+                  mergeDateTime(splitDateTime(data.return_depart_datetime).date, event.target.value)
+                )
+              }
+              onClick={showPicker}
+              onFocus={showPicker}
+              step={60}
+              className="w-full rounded-md border px-3 py-2"
+            />
+          </div>
         </div>
         <div>
           <label className="text-sm font-medium">
@@ -309,15 +382,35 @@ export default function TravelForm({
         )}
         <div>
           <label className="text-sm font-medium">抵達時間</label>
-          <input
-            type="datetime-local"
-            lang="en-GB"
-            value={data.return_arrival_datetime}
-            onChange={(event) => updateField('return_arrival_datetime', event.target.value)}
-            onClick={showPicker}
-            onFocus={showPicker}
-            className="mt-1 w-full rounded-md border px-3 py-2"
-          />
+          <div className="mt-1 grid gap-2 sm:grid-cols-[1fr_120px]">
+            <input
+              type="date"
+              value={splitDateTime(data.return_arrival_datetime).date}
+              onChange={(event) =>
+                updateField(
+                  'return_arrival_datetime',
+                  mergeDateTime(event.target.value, splitDateTime(data.return_arrival_datetime).time)
+                )
+              }
+              onClick={showPicker}
+              onFocus={showPicker}
+              className="w-full rounded-md border px-3 py-2"
+            />
+            <input
+              type="time"
+              value={splitDateTime(data.return_arrival_datetime).time}
+              onChange={(event) =>
+                updateField(
+                  'return_arrival_datetime',
+                  mergeDateTime(splitDateTime(data.return_arrival_datetime).date, event.target.value)
+                )
+              }
+              onClick={showPicker}
+              onFocus={showPicker}
+              step={60}
+              className="w-full rounded-md border px-3 py-2"
+            />
+          </div>
         </div>
         <div>
           <label className="text-sm font-medium">
