@@ -1,8 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Flatpickr from 'react-flatpickr';
-import 'flatpickr/dist/flatpickr.min.css';
 import { useRouter } from 'next/navigation';
 
 interface TravelCode {
@@ -70,9 +68,6 @@ export default function TravelForm({
   );
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-
-  const toInputValue = (value: string) => value.replace('T', ' ');
-  const toStoreValue = (value: string) => value.replace(' ', 'T');
 
   const showPicker = (event: React.MouseEvent<HTMLInputElement> | React.FocusEvent<HTMLInputElement>) => {
     const input = event.currentTarget as HTMLInputElement;
@@ -159,24 +154,15 @@ export default function TravelForm({
         </div>
         <div>
           <label className="text-sm font-medium">出發時間</label>
-          <div className="mt-1">
-            <Flatpickr
-              value={data.depart_datetime ? toInputValue(data.depart_datetime) : ''}
-              options={{
-                enableTime: true,
-                time_24hr: true,
-                dateFormat: 'Y-m-d H:i',
-                allowInput: true,
-                closeOnSelect: false,
-                disableMobile: true,
-              }}
-              onChange={(_, dateStr) => {
-                updateField('depart_datetime', dateStr ? toStoreValue(dateStr) : '');
-              }}
-              placeholder="YYYY-MM-DD HH:mm"
-              className="w-full rounded-md border px-3 py-2"
-            />
-          </div>
+          <input
+            type="datetime-local"
+            value={data.depart_datetime}
+            onChange={(event) => updateField('depart_datetime', event.target.value)}
+            onClick={showPicker}
+            onFocus={showPicker}
+            required
+            className="mt-1 w-full rounded-md border px-3 py-2"
+          />
         </div>
         <div>
           <label className="text-sm font-medium">
@@ -218,24 +204,15 @@ export default function TravelForm({
         </div>
         <div>
           <label className="text-sm font-medium">抵達時間</label>
-          <div className="mt-1">
-            <Flatpickr
-              value={data.arrival_datetime ? toInputValue(data.arrival_datetime) : ''}
-              options={{
-                enableTime: true,
-                time_24hr: true,
-                dateFormat: 'Y-m-d H:i',
-                allowInput: true,
-                closeOnSelect: false,
-                disableMobile: true,
-              }}
-              onChange={(_, dateStr) => {
-                updateField('arrival_datetime', dateStr ? toStoreValue(dateStr) : '');
-              }}
-              placeholder="YYYY-MM-DD HH:mm"
-              className="w-full rounded-md border px-3 py-2"
-            />
-          </div>
+          <input
+            type="datetime-local"
+            value={data.arrival_datetime}
+            onChange={(event) => updateField('arrival_datetime', event.target.value)}
+            onClick={showPicker}
+            onFocus={showPicker}
+            required
+            className="mt-1 w-full rounded-md border px-3 py-2"
+          />
         </div>
         <div>
           <label className="text-sm font-medium">
@@ -281,24 +258,14 @@ export default function TravelForm({
         </div>
         <div>
           <label className="text-sm font-medium">出發時間</label>
-          <div className="mt-1">
-            <Flatpickr
-              value={data.return_depart_datetime ? toInputValue(data.return_depart_datetime) : ''}
-              options={{
-                enableTime: true,
-                time_24hr: true,
-                dateFormat: 'Y-m-d H:i',
-                allowInput: true,
-                closeOnSelect: false,
-                disableMobile: true,
-              }}
-              onChange={(_, dateStr) => {
-                updateField('return_depart_datetime', dateStr ? toStoreValue(dateStr) : '');
-              }}
-              placeholder="YYYY-MM-DD HH:mm"
-              className="w-full rounded-md border px-3 py-2"
-            />
-          </div>
+          <input
+            type="datetime-local"
+            value={data.return_depart_datetime}
+            onChange={(event) => updateField('return_depart_datetime', event.target.value)}
+            onClick={showPicker}
+            onFocus={showPicker}
+            className="mt-1 w-full rounded-md border px-3 py-2"
+          />
         </div>
         <div>
           <label className="text-sm font-medium">
@@ -339,24 +306,14 @@ export default function TravelForm({
         )}
         <div>
           <label className="text-sm font-medium">抵達時間</label>
-          <div className="mt-1">
-            <Flatpickr
-              value={data.return_arrival_datetime ? toInputValue(data.return_arrival_datetime) : ''}
-              options={{
-                enableTime: true,
-                time_24hr: true,
-                dateFormat: 'Y-m-d H:i',
-                allowInput: true,
-                closeOnSelect: false,
-                disableMobile: true,
-              }}
-              onChange={(_, dateStr) => {
-                updateField('return_arrival_datetime', dateStr ? toStoreValue(dateStr) : '');
-              }}
-              placeholder="YYYY-MM-DD HH:mm"
-              className="w-full rounded-md border px-3 py-2"
-            />
-          </div>
+          <input
+            type="datetime-local"
+            value={data.return_arrival_datetime}
+            onChange={(event) => updateField('return_arrival_datetime', event.target.value)}
+            onClick={showPicker}
+            onFocus={showPicker}
+            className="mt-1 w-full rounded-md border px-3 py-2"
+          />
         </div>
         <div>
           <label className="text-sm font-medium">
