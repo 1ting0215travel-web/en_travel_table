@@ -8,7 +8,7 @@
 - 旅遊列表新增/編輯/刪除（一般登錄者不可刪除）
 - 去程/回程航班資訊
 - 轉機資訊（單一轉機地點）
-- 軟刪除欄位 `is_destroyed`
+- 硬刪除
 
 ## 環境需求
 - Node.js 22+
@@ -42,7 +42,7 @@ AUTH_SECRET=replace-with-a-long-random-string
 
 ## 新機器接手流程（另一台 Codex / 開發機）
 1. GitHub 登入（可推 code）
-   - 建議用 `gh auth login` 登入 `1ting0215travel@gmail.com`
+   - 建議用 `gh auth login` 登入 `個人github帳號信箱(限共用者)`
    - 確認有 repo 寫入權限
 2. 拉專案
    - `git clone https://github.com/1ting0215travel-web/en_travel_table.git`
