@@ -48,6 +48,7 @@
 - 部署至 Vercel
 - 管理者設定會存入 app_settings
 - 使用 JWT/cookie 作登入驗證
+- 加入 /api/health 健康檢查（會打 DB），並用排程每週三/六呼叫以避免 Supabase 閒置暫停
 
 七、其他
 - 需要可多人同時使用

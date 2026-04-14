@@ -48,6 +48,8 @@
 - 部署：Vercel
 - auth：JWT + cookie
 - DB 欄位建議使用 is_destroyed 進行軟刪除
+- 加入 /api/health 健康檢查（會打 DB）
+- 以排程每週三/六呼叫 /api/health，避免 Supabase 閒置暫停
 
 ---
 
