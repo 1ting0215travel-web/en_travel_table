@@ -3,17 +3,11 @@ import { query } from '@/lib/db';
 
 export async function GET() {
   try {
-    const result = await query<{ ok: number }>('select 1 as ok');
-    return NextResponse.json({ ok: true, result: result.rows[0] });
-  } catch (error: any) {
+    await query('select 1');
+    return NextResponse.json({ ok: true });
+  } catch (error) {
     return NextResponse.json(
-      {
-        ok: false,
-        message: error?.message || 'db_error',
-        code: error?.code,
-        detail: error?.detail,
-        hint: error?.hint,
-      },
+      { ok: false, error: error instanceof Error ? error.message : 'unknown' },
       { status: 500 }
     );
   }
